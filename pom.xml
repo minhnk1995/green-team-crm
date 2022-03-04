@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>green-team-crm</groupId>
+  <artifactId>green-team-crm</artifactId>
+  <version>0.0.1</version>
+  <packaging>war</packaging>
+  <name>gream-team-crm</name>
+  <description>project crm is developed by green team
+</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>11</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <properties>
+  	<jstl.version>1.2</jstl.version>
+  	<mysql.connector.version>8.0.22</mysql.connector.version>
+  	<sitemesh.version>2.4.2</sitemesh.version>
+  </properties>
+  
+  <dependencies>
+	<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>${jstl.version}</version>
+	</dependency>
+  	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>${mysql.connector.version}</version>
+	</dependency>
+  	<!-- https://mvnrepository.com/artifact/opensymphony/sitemesh -->
+	<dependency>
+	    <groupId>opensymphony</groupId>
+	    <artifactId>sitemesh</artifactId>
+	    <version>${sitemesh.version}</version>
+	</dependency>
+  </dependencies>
+</project>
