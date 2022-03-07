@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cybersoft.javabackend.crm.util.JspConst;
 import cybersoft.javabackend.crm.util.UrlConst;
 
 @WebServlet(name="authServlet",urlPatterns = {
@@ -18,6 +19,21 @@ public class AuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("WEB-INF/views/auth/login.jsp").forward(req, resp);
+		String path = req.getServletPath();
+		
+		
+		switch(path) {
+		case UrlConst.AUTH_LOGIN:
+			req.getRequestDispatcher(JspConst.AUTH_LOGIN).forward(req, resp);
+			
+			break;
+			
+		case UrlConst.AUTH_OUT:
+			resp.sendRedirect( req.getContextPath() + JspConst.AUTH_LOGIN);
+			break;
+		}
+		
+		
+		
 	}
 }

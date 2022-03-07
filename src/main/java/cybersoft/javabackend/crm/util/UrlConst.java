@@ -4,4 +4,5 @@ public class UrlConst {
 	public static final String HOME = "/home";
 	
 	public static final String AUTH_LOGIN = "/log-in";
+	public static final String AUTH_OUT = "/log-out";
 }
