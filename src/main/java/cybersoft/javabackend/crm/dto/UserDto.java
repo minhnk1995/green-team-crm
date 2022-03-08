@@ -10,6 +10,9 @@ public class UserDto {
 	
 	
 	
+	public UserDto() {
+		
+	}
 	public UserDto(String email, String password, String name, String phone, String address, int roleId) {
 		this.email = email;
 		this.password = password;
