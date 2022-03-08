@@ -15,7 +15,7 @@ public class UserService {
 
 	public List<User> findAll() {
 		
-		return null;
+		return userRepo.findAll();
 	}
 
 	public void deleteById(int id) {
