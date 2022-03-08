@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class MySqlConnection {
 	private static Connection connection = null;
 	
-	private static final String URL = "jdbc:mysql//localhost:3306/crm";
+	private static final String URL = "jdbc:mysql://localhost:3306/crm";
 	private static final String USERNAME = "root";
 	private static final String PASWORD = "admin";
 	
@@ -16,6 +16,7 @@ public class MySqlConnection {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			if(connection == null || connection.isClosed())
 				connection = DriverManager.getConnection(URL, USERNAME, PASWORD);
+			return connection;
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver could not found.");
 			e.printStackTrace();

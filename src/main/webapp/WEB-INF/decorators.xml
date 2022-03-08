@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/decorators">
 	<decorator name="web" page="default-layout.jsp">
-		<pattern>/*</pattern>
+		<pattern>/dashboard</pattern>
 	</decorator>
 </decorators>
