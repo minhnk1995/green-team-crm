@@ -13,7 +13,7 @@ import cybersoft.javabackend.crm.model.Role;
 import cybersoft.javabackend.crm.model.User;
 
 public class UserRepository {
-	
+	// nhân sửa code
 	public List<User> findAll(){
 		List<User> lstUsers = new ArrayList<>();
 
