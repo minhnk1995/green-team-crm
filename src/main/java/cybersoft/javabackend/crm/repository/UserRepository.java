@@ -19,48 +19,34 @@ public class UserRepository {
 
 		try {
 			Connection conn = MySqlConnection.getConnection();
-			String query = "SELECT * FROM users";
+			String query = "select * from users u join roles r on u.role_id = r.id;";
 			PreparedStatement statement = conn.prepareStatement(query);
 			ResultSet res = statement.executeQuery();
 			while (res.next()) {
+				Role role = new Role();
 				User user = new User();
+				
+				role.setId(res.getInt("id"));
+				role.setName(res.getString("name"));
+				role.setDescription(res.getString("description"));
+				
+				user.setId(res.getInt("u.id"));
 				user.setEmail(res.getString("email"));
 				user.setPassword(res.getString("password"));
 				user.setName(res.getString("fullname"));
+				user.setPhone(res.getString("phone"));
 				user.setAddress(res.getString("address"));
-				user.setRole(getUserRole(res.getInt("role_id")));
+				user.setRole(role);
 				lstUsers.add(user);
 			}
 			conn.close();
 			return lstUsers;
 		} catch (Exception e) {
-			System.out.println("lỗi ở trên");
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	private Role getUserRole(int role_id) {
-		try {
-			Connection conn = MySqlConnection.getConnection();
-			String query = "SELECT * FROM roles WHERE id = ?";
-			PreparedStatement statement = conn.prepareStatement(query);
-			statement.setInt(1, role_id);
-			ResultSet res = statement.executeQuery();
-			Role role = new Role();
-			while (res.next()) {
-				role.setId(res.getInt("id"));
-				role.setName(res.getString("name"));
-				role.setDescription(res.getString("description"));
-			}
-			return role;
-		} catch (Exception e) {
-			System.out.println("lỗi ở dưới");
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 	public void deleteById(int id) {
 		
 	

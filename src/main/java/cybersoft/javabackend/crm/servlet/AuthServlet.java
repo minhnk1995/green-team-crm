@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,14 +48,26 @@ public class AuthServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
 
-		String email, password;
+		String email, password, check;
 
 		email = req.getParameter("email");
 		password = req.getParameter("password");
+		check = req.getParameter("remember");
 		Optional<User> user = authService.login(email, password);
 		if (user.isPresent()) {
 			HttpSession session = req.getSession();
+			Cookie cookieEmail = new Cookie("email", user.get().getEmail());
+			Cookie cookiePass = new Cookie("pass", user.get().getPassword());
+
 			session.setAttribute("user", user);
+			
+			if (req.getParameter("remember") == null) {				
+				cookieEmail.setMaxAge(0);
+				cookiePass.setMaxAge(0);
+			}
+			resp.addCookie(cookieEmail);
+			resp.addCookie(cookiePass);
+
 			resp.sendRedirect(req.getContextPath() + UrlConst.HOME);
 		} else {
 			req.setAttribute("wronglogin", true);
