@@ -53,7 +53,6 @@
     <div style="display: inline-block;">
         <h1 style="color: limegreen; margin: 10px 0px 0px 10px;font-family: Gugi;background: wheat;padding:2px 5px; border-radius: 10px;">GREEN TEAM CRM</h1>
     </div>
-    <img src="/assets/img.jpg" alt="loi">
     <div style="width:30%; margin:5% 35%;">
         <form action="<%=request.getContextPath() + UrlConst.AUTH_LOGIN%>" method="post" novalidate style="background-color: aliceblue;padding:5%">
             <div>
