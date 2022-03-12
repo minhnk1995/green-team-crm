@@ -15,4 +15,7 @@ public class UrlConst {
 	public static final String USER_ADD = "/user/add";
 	public static final String USER_UPDATE = "/user/update";
 	public static final String USER_DELETE = "/user/delete";
+	
+	//job
+	public static final String JOB_CREATE = "/job/create";
 }
