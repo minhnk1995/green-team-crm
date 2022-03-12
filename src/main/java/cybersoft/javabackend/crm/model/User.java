@@ -6,11 +6,21 @@ public class User {
 	private String password;
 	private String name;
 	private String address;
+	private String phone;
 	private Role role;
 	
 	public User() {
 		
 	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public int getId() {
 		return id;
 	}
