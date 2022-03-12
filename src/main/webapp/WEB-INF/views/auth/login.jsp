@@ -9,22 +9,22 @@
     <meta charset="utf-8" />
     <title>Đăng nhập</title>
 
-    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
 
     <!-- Perfect Scrollbar -->
-    <link type="text/css" href="/assets/vendor/perfect-scrollbar.css" rel="stylesheet">
+    <link type="text/css" href="assets/vendor/perfect-scrollbar.css" rel="stylesheet">
 
     <!-- App CSS -->
-    <link type="text/css" href="/assets/css/app.css" rel="stylesheet">
-    <link type="text/css" href="/assets/css/app.rtl.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/app.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/app.rtl.css" rel="stylesheet">
 
     <!-- Material Design Icons -->
-    <link type="text/css" href="/assets/css/vendor-material-icons.css" rel="stylesheet">
-    <link type="text/css" href="/assets/css/vendor-material-icons.rtl.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/vendor-material-icons.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/vendor-material-icons.rtl.css" rel="stylesheet">
 
     <!-- Font Awesome FREE Icons -->
-    <link type="text/css" href="/assets/css/vendor-fontawesome-free.css" rel="stylesheet">
-    <link type="text/css" href="/assets/css/vendor-fontawesome-free.rtl.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/vendor-fontawesome-free.css" rel="stylesheet">
+    <link type="text/css" href="assets/css/vendor-fontawesome-free.rtl.css" rel="stylesheet">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-5">
+            <div class="form-group mb-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" name="remember" class="custom-control-input" id="remember">
                     <label class="custom-control-label" for="remember">Remember me</label>
