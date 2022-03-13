@@ -26,7 +26,9 @@ public class AuthFilter implements Filter {
 		String path = req.getServletPath();
 		Object user = req.getSession().getAttribute("user");
 		
-		if(path.startsWith(UrlConst.AUTH_LOGIN)) {			
+		if(path.startsWith(UrlConst.ASSETS))
+			chain.doFilter(request, response);
+		else if(path.startsWith(UrlConst.AUTH_LOGIN)) {			
 			if(user == null) {
 				chain.doFilter(request, response);
 			}
