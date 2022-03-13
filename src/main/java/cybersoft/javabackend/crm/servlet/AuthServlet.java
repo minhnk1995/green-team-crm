@@ -3,7 +3,6 @@ package cybersoft.javabackend.crm.servlet;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -17,7 +16,7 @@ import cybersoft.javabackend.crm.service.AuthService;
 import cybersoft.javabackend.crm.util.JspConst;
 import cybersoft.javabackend.crm.util.UrlConst;
 
-@WebServlet(name = "authServlet", urlPatterns = { UrlConst.AUTH_LOGIN, UrlConst.AUTH_OUT })
+@WebServlet(name = "authServlet", urlPatterns = { UrlConst.AUTH_LOGIN })
 public class AuthServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -40,9 +39,7 @@ public class AuthServlet extends HttpServlet {
 			break;
 
 		case UrlConst.AUTH_OUT:
-			HttpSession session=req.getSession();  
-            session.invalidate();  
-			resp.sendRedirect(req.getContextPath() + UrlConst.AUTH_LOGIN);
+			resp.sendRedirect(req.getContextPath() + JspConst.AUTH_LOGIN);
 			break;
 		}
 	}
@@ -62,7 +59,7 @@ public class AuthServlet extends HttpServlet {
 			Cookie cookieEmail = new Cookie("email", user.get().getEmail());
 			Cookie cookiePass = new Cookie("pass", user.get().getPassword());
 
-			session.setAttribute("user", user.get());
+			session.setAttribute("user", user);
 			
 			if (req.getParameter("remember") == null) {				
 				cookieEmail.setMaxAge(0);
