@@ -35,6 +35,19 @@ public class AuthServlet extends HttpServlet {
 
 		switch (path) {
 		case UrlConst.AUTH_LOGIN:
+			Cookie[] listCookie = req.getCookies();
+		     int i = 0;
+		     if(listCookie != null){
+		        while(i < listCookie.length){
+		          if(listCookie[i].getName().equals("email")){
+		            req.setAttribute("user", listCookie[i].getValue());
+		           }
+		          if(listCookie[i].getName().equals("pass")){
+		            req.setAttribute("pass", listCookie[i].getValue());
+		           }
+		          i++;
+		        }  
+		      }
 			req.getRequestDispatcher(JspConst.AUTH_LOGIN).forward(req, resp);
 
 			break;
@@ -50,31 +63,39 @@ public class AuthServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
+		switch(path) {
+		
+		case UrlConst.AUTH_LOGIN:
+			String email, password, check;
 
-		String email, password, check;
+			email = req.getParameter("email");
+			password = req.getParameter("password");
+			check = req.getParameter("remember");
+			Optional<User> user = authService.login(email, password);
+			if (user.isPresent()) {
+				HttpSession session = req.getSession();
+				Cookie cookieEmail = new Cookie("email", user.get().getEmail());
+				Cookie cookiePass = new Cookie("pass", user.get().getPassword());
 
-		email = req.getParameter("email");
-		password = req.getParameter("password");
-		check = req.getParameter("remember");
-		Optional<User> user = authService.login(email, password);
-		if (user.isPresent()) {
-			HttpSession session = req.getSession();
-			Cookie cookieEmail = new Cookie("email", user.get().getEmail());
-			Cookie cookiePass = new Cookie("pass", user.get().getPassword());
+				session.setAttribute("user", user.get());
+				
+				if (req.getParameter("remember") == null) {				
+					cookieEmail.setMaxAge(0);
+					cookiePass.setMaxAge(0);
+					
+				}
+				resp.addCookie(cookieEmail);
+				resp.addCookie(cookiePass);
 
-			session.setAttribute("user", user.get());
-			
-			if (req.getParameter("remember") == null) {				
-				cookieEmail.setMaxAge(0);
-				cookiePass.setMaxAge(0);
+				resp.sendRedirect(req.getContextPath() + UrlConst.HOME);
+			} else {
+				req.setAttribute("wronglogin", true);
+				req.getRequestDispatcher(JspConst.AUTH_LOGIN).forward(req, resp);
 			}
-			resp.addCookie(cookieEmail);
-			resp.addCookie(cookiePass);
-
-			resp.sendRedirect(req.getContextPath() + UrlConst.HOME);
-		} else {
-			req.setAttribute("wronglogin", true);
-			req.getRequestDispatcher(JspConst.AUTH_LOGIN).forward(req, resp);
+			break;
+		case UrlConst.AUTH_OUT:
+			break;
 		}
+		
 	}
 }
