@@ -23,6 +23,10 @@ public class UserService {
 		}
 		return users;
 	}
+	public List<User> findAll() {
+		
+		return userRepo.findAll();
+	}
 
 	public void deleteById(int id) {
 		try {
