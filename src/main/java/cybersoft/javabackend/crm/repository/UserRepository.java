@@ -5,14 +5,87 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import cybersoft.javabackend.crm.dbconnection.MySqlConnection;
+import cybersoft.javabackend.crm.dto.UpdateUserDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.Role;
 import cybersoft.javabackend.crm.model.User;
 
 public class UserRepository {
+	public List<User> getAllUser() throws SQLException {
+		List<User> users = new LinkedList<>();
+		List<Role> roles = new ArrayList<>();
+		
+		Connection connection = MySqlConnection.getConnection();
+		String query = "SELECT u.id as id, u.fullname as fullname, u.email as email, "
+				+ "u.phone as phone, r.id as role_id, r.name as role_name, r.description as role_description "
+				+ "FROM user u, role r WHERE u.role_id = r.id";
+		  
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			
+			ResultSet resultSet = statement.executeQuery();
+			
+			while(resultSet.next()) {
+				User user = new User();
+				
+				user.setId(resultSet.getInt("id"));
+				user.setName(resultSet.getString("name"));
+				user.setEmail(resultSet.getString("email"));
+				user.setPhone(resultSet.getString("phone"));
+				int roleId = resultSet.getInt("role_id");
+				Role role = getRoleFromUsers(roles, roleId);
+				
+				if(role == null) {
+					role = new Role();
+					role.setId(resultSet.getInt("role_id"));
+					role.setName(resultSet.getString("role_name"));
+					role.setDescription(resultSet.getString("role_description"));
+					
+					roles.add(role);
+				}
+				
+				user.setRole(role);
+				
+				users.add(user);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Unable to connect to database.");
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
+		
+		return users;
+	}
+	private Role getRoleFromUsers(List<Role> roles, int roleId) {
+		for(Role role : roles)
+			if(role.getId() == roleId)
+				return role;
+		return null;
+	}
+	public boolean deleteById(int id) throws SQLException {
+		String query ="delete from users where id = ?";
+		Connection connection = MySqlConnection.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			int resultSet = statement.executeUpdate();
+			if(resultSet>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			System.out.println("Unable to connect to database.");
+			e.printStackTrace();
+		}finally {
+			connection.close();
+		}
+		return false;
+	}
 	// nhân sửa code
 	public List<User> findAll(){
 		List<User> lstUsers = new ArrayList<>();
@@ -46,11 +119,34 @@ public class UserRepository {
 		}
 		return null;
 	}
-	
-	public void deleteById(int id) {
+	public boolean updateUser(UpdateUserDto userDto) throws SQLException {
+		String query ="update users set email = ?,password=?,fullname=?,role_id=? ,phone=?,address=?"
+				+ "where id = ?";
+		Connection connection = MySqlConnection.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, userDto.getEmail());
+			statement.setString(2, userDto.getPassword());
+			statement.setString(3, userDto.getName());
+			statement.setInt(4, userDto.getRoleId());
+			statement.setString(5, userDto.getPhone());
+			statement.setString(6, userDto.getAddress());
+			statement.setInt(7, userDto.getId());
+			int resultSet = statement.executeUpdate();
+			if(resultSet > 0) 
+				return true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Unable to connect to database.");
+		}finally {
+			connection.close();
+		}
 		
-	
+		return false;
 	}
+	
+	
 	public boolean addUser(UserDto userDto) throws SQLException {
 		String query = "insert into users(email,password,fullname,phone,address,role_id)"
 				+ "values(?,?,?,?,?,?);";
