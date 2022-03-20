@@ -18,4 +18,8 @@ public class UrlConst {
 	
 	//job
 	public static final String JOB_CREATE = "/job/create";
+	public static final String JOB_DETAIL = "/job/detail";
+	
+	//task
+	public static final String TASK_CREATE = "/task/add";
 }

@@ -25,4 +25,12 @@ public class UserService {
 	public void add(UserDto dto) {
 		
 	}
+
+	public List<User> getListUserByRole(int roleID) {
+		return userRepo.getListUserByRole(roleID);
+	}
+
+	public int countUserByJob(int id) {
+		return userRepo.getListUserByJob(id).size();
+	}
 }

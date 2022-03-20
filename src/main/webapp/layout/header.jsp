@@ -24,16 +24,21 @@
                             <a class="dropdown-item" href="#">
                                 User List
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="#" ${user.getRole().getId()==1 ? "" : "hidden"}>
                                 Create User
                             </a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manage Role</a>
+                        <a class="nav-link" href="#" ${user.getRole().getId()==1 ? "" : "hidden"}>Manage Role</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Projects</a>
+                    <li class="nav-item dropdown" ${user.getRole().getId()==3 ? "hidden" : ""}>
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Projects</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">
+                                Create Project
+                            </a>
+                        </div>
                     </li>             
                 </ul>
                 <ul class="nav navbar-nav d-none d-sm-flex border-left navbar-border navbar-height align-items-center">
