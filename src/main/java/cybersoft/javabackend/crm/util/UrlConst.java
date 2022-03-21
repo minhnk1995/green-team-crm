@@ -2,6 +2,7 @@ package cybersoft.javabackend.crm.util;
 
 public class UrlConst {
 	public static final String GLOBAL = "/*";
+	public static final String ASSETS = "/assets";
 	
 	public static final String HOME = "/home";
 

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import cybersoft.javabackend.crm.util.UrlConst;
 
-@WebFilter(filterName = "authFilter", urlPatterns = UrlConst.GLOBAL)
+@WebFilter(filterName = "authFilter", urlPatterns = UrlConst.ASSETS)
 public class AuthFilter implements Filter {
 
 	@Override
@@ -26,12 +26,10 @@ public class AuthFilter implements Filter {
 		String path = req.getServletPath();
 		Object user = req.getSession().getAttribute("user");
 
-		if (path.startsWith(UrlConst.AUTH_LOGIN)) {
+		if(path.startsWith(UrlConst.ASSETS))
 			chain.doFilter(request, response);
-		} else {
-			if (user == null) {
-				resp.sendRedirect(req.getContextPath() + UrlConst.AUTH_LOGIN);
-			} else {
+		else if(path.startsWith(UrlConst.AUTH_LOGIN)) {			
+			if(user == null) {
 				chain.doFilter(request, response);
 			}
 		}
