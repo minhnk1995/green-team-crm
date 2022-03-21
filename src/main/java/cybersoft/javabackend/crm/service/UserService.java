@@ -3,6 +3,9 @@ package cybersoft.javabackend.crm.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.catalina.startup.ClassLoaderFactory.Repository;
+
+import cybersoft.javabackend.crm.dto.UpdateUserDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.User;
 import cybersoft.javabackend.crm.repository.UserRepository;
@@ -36,11 +39,42 @@ public class UserService {
 		}
 	}
 
-	public void add(UserDto dto) {
+	public boolean add(UserDto dto) {
 		try {
-			userRepo.addUser(dto);
+			return userRepo.addUser(dto);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return false;
+	}
+
+	public User getUserById(int id){
+		try {
+			return userRepo.getUserById(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public UserDto getUserByName(String name) {
+		UserDto user = null;
+		try {
+			user = userRepo.getUserByName(name);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		}
+		return user;
+	}
+
+	public boolean updateUser(UpdateUserDto user) {
+		
+		try {
+			return userRepo.updateUser(user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

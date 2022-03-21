@@ -22,6 +22,7 @@
     			<dec:body />
     		</div>
     	</div>
+    	<jsp:include page="/decorators/layout/modals.jsp"/>
     	
 		<jsp:include page="/decorators/layout/footer.jsp" />
 		<dec:getProperty property="page.scripts" />
