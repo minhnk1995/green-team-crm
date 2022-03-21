@@ -46,7 +46,7 @@
 		<div class="container page__container">
 		<c:choose>
 			<c:when test="${lstJob!=null && lstJob.size()>0}">
-				<c:forEach var="lstJob" items="${lstJob}">
+				<c:forEach var="lstJob" items="${lstJob}" varStatus="i">
 			   		<div class="card" style="padding:20px; border-radius: 25px">
 		   				<a style="cursor: pointer; text-decoration: none;" href="<%=request.getContextPath() + UrlConst.JOB_DETAIL + "?jobid="%>${lstJob.getId()}">
 					    	<h1 style="border-style: groove; width: fit-content; padding: 6px;">
@@ -56,21 +56,31 @@
 					    		<c:when test="${LocalDateTime.now().isAfter(lstJob.getEnd_date())}">
 				    				<h4 class="card-header__title flex mb-0" style="margin-top:10px">
 				    					<span>Manager: ${lstJob.getManager().getName() }</span>
-				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser : 0}</span>
+				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser[i.index] : 0}</span>
 				    					<span style="float:right;">Finished!</span>
 				    				</h4>     			
 					    			<div class="progress" style="margin-top:20px; height:30px">
-					  					<div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+					  					<div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+									</div>
+					    		</c:when>
+					    		<c:when test="${LocalDateTime.now().isBefore(lstJob.getStart_date())}">
+				    				<h4 class="card-header__title flex mb-0" style="margin-top:10px">
+				    					<span>Manager: ${lstJob.getManager().getName() }</span>
+				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser[i.index] : 0}</span>
+				    					<span style="float:right;">Not started yet!</span>
+				    				</h4>     			
+					    			<div class="progress" style="margin-top:20px; height:30px">
+					  					<div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">0%</div>
 									</div>
 					    		</c:when>
 					    		<c:otherwise>    				
 				    				<h4 class="card-header__title flex mb-0" style="margin-top:10px;">
 				    					<span>Manager: ${lstJob.getManager().getName() }</span>
-				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser : 0 }</span>
+				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser[i.index] : 0 }</span>
 				    					<span style="float:right;">${Duration.between(LocalDateTime.now(), lstJob.getEnd_date()).toDays() } days left</span>
 				    				</h4>    			
 					    			<div class="progress" style="margin-top:20px; height:30px">
-					  					<div class="progress-bar bg-info" role="progressbar" style="width: ${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%</div>
+					  					<div class="progress-bar bg-info" role="progressbar" style="width:${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%</div>
 									</div>
 					    		</c:otherwise>
 					    	</c:choose>	 

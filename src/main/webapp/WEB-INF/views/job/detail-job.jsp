@@ -46,12 +46,39 @@
 			              <span style="font-weight: bolder;">Manager:</span>
 			              <a>${job.getManager().getName() }</a>
 	          		</div>
-	          		<div style="display:inline-block;">
-	          			<span style="float:right;">${Duration.between(LocalDateTime.now(), job.getEnd_date()).toDays() } days left</span>
-	          		</div>
-	          		<div class="progress" style="height:20px">
-	  					<div class="progress-bar bg-info" role="progressbar" style="width: ${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%</div>
-					</div>
+	          		<div class="form-group">
+		                <span style="font-weight: bolder;">From </span>		                
+	              		<span>${job.getStart_date().toLocalDate() }</span>
+	              		<span style="font-weight: bolder; margin:0 10px">to</span>		                
+	              		<span>${job.getEnd_date().toLocalDate() }</span>
+		            </div>
+	          		<c:choose>
+	    				<c:when test="${LocalDateTime.now().isAfter(job.getEnd_date())}">
+	    					<div style="display:inline-block;">
+			          			<span style="float:right;">Finished!</span>
+			          		</div>
+			          		<div class="progress" style="height:20px">
+			  					<div class="progress-bar bg-success" role="progressbar" style="width:100%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">100%</div>
+							</div>
+	    				</c:when>
+	    				<c:when test="${LocalDateTime.now().isBefore(job.getStart_date())}">
+	    					<div style="display:inline-block;">
+			          			<span style="float:right;">Not started yet!</span>
+			          		</div>
+			          		<div class="progress" style="height:20px">
+			  					<div class="progress-bar bg-info" role="progressbar" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+							</div>
+	    				</c:when>
+	    				<c:otherwise>
+	    					<div style="display:inline-block;">
+			          			<span style="float:right;">${Duration.between(LocalDateTime.now(), job.getEnd_date()).toDays() } days left</span>
+			          		</div>
+			          		<div class="progress" style="height:20px">
+			  					<div class="progress-bar bg-info" role="progressbar" style="width: ${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+			  					${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%</div>
+							</div>
+	    				</c:otherwise>
+    				</c:choose>	          		
                 </div>                
                 <div class="col-lg">
                 	<div class="form-group">
@@ -87,17 +114,18 @@
 			                                    <span class="js-lists-values-employee-name">${lstTask.getName()}</span>
 			                                </td>
 			                                <td>${lstTask.getUser().getName()}</td>
-			                                <td><small>${lstTask.getEnd_date().toLocalDate()}</small></td>
-			                                <td><small class="text-muted">${Duration.between(LocalDateTime.now(), lstTask.getEnd_date()).toDays() } days left</small></td>
-			                                
+			                                <td><small>${lstTask.getEnd_date().toLocalDate()}</small></td>	                                	                             
 			                                <c:choose>
 			                                	<c:when test="${lstTask.getStatus().getId()==1}">
+			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now(), lstTask.getEnd_date()).toDays() } days left</small></td>
 			                                		<td><span class="badge badge-warning">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                	<c:when test="${lstTask.getStatus().getId()==2}">
+			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now(), lstTask.getEnd_date()).toDays() } days left</small></td>
 			                                		<td><span class="badge badge-primary">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                	<c:when test="${lstTask.getStatus().getId()==3}">
+			                                		<td><small class="text-muted">-</small></td>
 			                                		<td><span class="badge badge-success">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                </c:choose>
