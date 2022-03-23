@@ -31,12 +31,13 @@ public class UserService {
 		return userRepo.findAll();
 	}
 
-	public void deleteById(int id) {
+	public boolean deleteById(int id) {
 		try {
-			userRepo.deleteById(id);
+			return userRepo.deleteById(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	public boolean add(UserDto dto) {

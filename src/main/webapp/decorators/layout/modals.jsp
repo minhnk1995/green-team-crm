@@ -22,13 +22,13 @@
 						<h3 class="text-center">Create New Account</h3>
 						<div class="form-group">
 							<label for="username">Name:</label> <input
-								class="form-control is-valid" type="text" id="username"
+								class="form-control" type="text" id="username"
 								required="" name ="name" placeholder="John Doe" />
 						</div>
 						<div class="form-group">
 							<label for="email">Email Address:</label>
 							<input
-								class="form-control is-invalid" type="email" id="email"
+								class="form-control" type="email" id="email"
 								required="" name="email" placeholder="john@doe.com" />
 						</div>
 						<div class="form-group">

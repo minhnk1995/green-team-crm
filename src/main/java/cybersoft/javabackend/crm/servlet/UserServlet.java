@@ -86,7 +86,12 @@ public class UserServlet extends HttpServlet {
 			break;
 		// xóa nhân viên
 		case UrlConst.USER_DELETE:
-
+			int id = Integer.parseInt(req.getParameter("id"));
+			if(!service.deleteById(id)) {
+				resp.sendRedirect(req.getContextPath() +UrlConst.USER_PROFILE+"?id=" + id);
+			}else {
+				resp.sendRedirect(req.getContextPath() +UrlConst.USER_DASHBOARD);
+			}
 			break;
 		// thông tin nhân viên
 		case UrlConst.USER_PROFILE:
