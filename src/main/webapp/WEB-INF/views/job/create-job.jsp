@@ -9,8 +9,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Create a new Project</title>	
-		
-    
 	</head>	
 	<body>
 	<div class="container page__heading-container">

@@ -20,7 +20,11 @@ public class UrlConst {
 	//job
 	public static final String JOB_CREATE = "/job/create";
 	public static final String JOB_DETAIL = "/job/detail";
+	public static final String JOB_REMOVE = "/job/remove";
+	public static final String JOB_EDIT = "/job/edit";
 	
 	//task
 	public static final String TASK_CREATE = "/task/add";
+	public static final String TASK_REMOVE = "/task/remove";
+	public static final String TASK_EDIT = "/task/edit";
 }

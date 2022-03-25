@@ -11,7 +11,6 @@
 		<title>
 			CRM - <dec:title />
 		</title>
-		<dec:head/>
 		<!-- App CSS -->
 	    <link type="text/css" href="<c:url value="/assets/css/app.css"/>" rel="stylesheet" />
 	    <link type="text/css" href="<c:url value="/assets/css/app.rtl.css"/>" rel="stylesheet" />
@@ -29,7 +28,8 @@
 	    <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr-airbnb.css"/>" rel="stylesheet" />
 	    <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr-airbnb.rtl.css"/>" rel="stylesheet" />
 	    <!-- DateRangePicker -->
-    <link type="text/css" href="<c:url value="/assets/vendor/daterangepicker.css"/>" rel="stylesheet">	
+    	<link type="text/css" href="<c:url value="/assets/vendor/daterangepicker.css"/>" rel="stylesheet">	
+    	<dec:head/>
 	</head>
 	<body class="layout-fixed">
 		<div class="preloader"></div>
@@ -85,5 +85,9 @@
 	    <!-- List.js -->
 	    <script src="<c:url value="/assets/vendor/list.min.js"/>"></script>
 	    <script src="<c:url value="/assets/js/list.js"/>"></script>
+	    
+	    <!-- Toastr -->
+	    <script src="<c:url value="/assets/vendor/toastr.min.js"/>"></script>
+	    <script src="<c:url value="/assets/js/toastr.js"/>"></script>
 	</body>
 </html>

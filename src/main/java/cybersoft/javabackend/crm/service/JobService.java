@@ -1,13 +1,15 @@
 package cybersoft.javabackend.crm.service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import cybersoft.javabackend.crm.model.Job;
 import cybersoft.javabackend.crm.model.Task;
 import cybersoft.javabackend.crm.repository.JobRepository;
+import cybersoft.javabackend.crm.util.ComConst;
 
 public class JobService {
 	private JobRepository jobRepo;
@@ -27,11 +29,12 @@ public class JobService {
 	}
 	
 	public boolean validatePeriod(String start, String end) {
-		LocalDateTime startDate, endDate;
+		LocalDate startDate, endDate;
 
-		startDate = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-		endDate = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-		return LocalDateTime.now().minusDays(1).isAfter(startDate) || LocalDateTime.now().isAfter(endDate);
+		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(startDate + " " + endDate);
+		return LocalDate.now().plusDays(1).isAfter(startDate) || LocalDate.now().isBefore(endDate);
 	}
 
 
@@ -42,8 +45,8 @@ public class JobService {
 	}
 
 
-	public boolean addJob(String name, String discription, String start, String end, int managerID) {
-		return jobRepo.addJob(name, discription, start, end, managerID);
+	public boolean addJob(String name, String description, String start, String end, int managerID) {
+		return jobRepo.addJob(name, description, start, end, managerID);
 	}
 
 
@@ -59,5 +62,58 @@ public class JobService {
 
 	public List<Task> getTasksByUserIdAndJobId(int userId, int jobId) {
 		return jobRepo.getTasksByUserIdAndJobId(userId, jobId);
+	}
+
+
+	public boolean deleteProjectById(int jobID) {
+		return jobRepo.deleteProjectById(jobID) && jobRepo.deleteTasksByProjectId(jobID);
+	}
+
+
+	public boolean editJobById(int jobId, String name, String description, String start, String end, int managerID) {
+		return jobRepo.editJobById(jobId, name, description, start, end, managerID);
+	}
+
+
+	public boolean validateDeadline(String start, String end) {
+		LocalDate startDate, endDate;
+
+		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(startDate + " " + endDate);
+		return startDate.isBefore(endDate) || LocalDate.now().isBefore(endDate);
+	}
+
+
+	public List<Job> getAllJobs() {
+		return jobRepo.getAllJob();
+	}
+	
+	public void updateTaskStatus() {
+		List<Task> lstTasks = new ArrayList<>();
+		
+		lstTasks.addAll(jobRepo.getAllTasks());
+		for(Task item : lstTasks) {
+			switch(item.getStatus().getId()) {
+			case ComConst.STATUS_CHUATHUCHIEN:
+				if(LocalDate.now().plusDays(1).isAfter(item.getStart_date().toLocalDate())) {
+					jobRepo.updateTaskStatusToTwo(item.getId());
+				}
+				break;
+			case ComConst.STATUS_DAHOANTHANH:
+				if(LocalDate.now().isBefore(item.getEnd_date().toLocalDate())) {
+					jobRepo.updateTaskStatusToTwo(item.getId());
+				}
+				break;
+			case ComConst.STATUS_DANGTHUCHIEN:
+				if(LocalDate.now().isAfter(item.getEnd_date().toLocalDate())) {
+					jobRepo.updateTaskStatusToThree(item.getId());
+				}
+				else if (LocalDate.now().isBefore(item.getStart_date().toLocalDate())) {
+					jobRepo.updateTaskStatusToOne(item.getId());
+				}
+				break;
+			}
+		}
 	}
 }

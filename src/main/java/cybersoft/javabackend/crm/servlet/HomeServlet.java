@@ -16,6 +16,7 @@ import cybersoft.javabackend.crm.model.Job;
 import cybersoft.javabackend.crm.model.User;
 import cybersoft.javabackend.crm.service.JobService;
 import cybersoft.javabackend.crm.service.UserService;
+import cybersoft.javabackend.crm.util.ComConst;
 import cybersoft.javabackend.crm.util.JspConst;
 import cybersoft.javabackend.crm.util.UrlConst;
 
@@ -29,6 +30,7 @@ public class HomeServlet extends HttpServlet {
 	public void init() throws ServletException {
 		jobService = new JobService();
 		userService = new UserService();
+		jobService.updateTaskStatus();
 	}
 
 	@Override
@@ -40,8 +42,11 @@ public class HomeServlet extends HttpServlet {
 		user = (User) session.getAttribute("user");
 
 		lstJob = jobService.getAllJobsByUserID(user.getId());
-		if(user.getRole().getId()!=3) {
+		if(user.getRole().getId()==ComConst.ROLE_MANAGER) {
 			lstJob.addAll(jobService.getAllJobsByManagerID(user.getId()));
+		}
+		else if(user.getRole().getId()==ComConst.ROLE_ADMIN) {
+			lstJob.addAll(jobService.getAllJobs());
 		}
 		List<Integer> numUser;
 		if(lstJob!=null) {
