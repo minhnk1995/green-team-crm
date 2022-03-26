@@ -1,8 +1,10 @@
 package cybersoft.javabackend.crm.service;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
+import cybersoft.javabackend.crm.dto.UpdateUserDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.User;
 import cybersoft.javabackend.crm.repository.UserRepository;
@@ -50,5 +52,14 @@ public class UserService {
 
 	public int countUserByJob(int id) {
 		return userRepo.getListUserByJob(id).size();
+	}
+
+	public List<UpdateUserDto> getUserDtoByRole(int roleUser) {
+		try {
+			return userRepo.getUserDtoByRole(roleUser);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -51,7 +51,7 @@ public class JobServlet extends HttpServlet {
 			break;
 		case UrlConst.JOB_DETAIL:
 			Job job;
-			int jobID = Integer.parseInt(req.getParameter("jobid"));
+			int jobID = Integer.parseInt(req.getParameter("job"));
 			job = jobService.getJobByID(jobID);
 			req.setAttribute("lstManager", lstManager);
 			if (job != null) {
@@ -121,8 +121,10 @@ public class JobServlet extends HttpServlet {
 			System.out.println(jobID);
 			flag = jobService.deleteProjectById(jobID);
 			System.out.println(flag);
+			
 			if (flag) {
 				req.setAttribute("msg", "Successfully remove the project!");
+				req.setAttribute("projectRemoveSuccess", true);
 				req.getRequestDispatcher(JspConst.JOB_RESULT).forward(req, resp);
 			}
 			else {
@@ -137,18 +139,23 @@ public class JobServlet extends HttpServlet {
 			if (dateStatus.equals("1")) {
 				start = req.getParameter("jobStart").substring(0, 10);
 				end = req.getParameter("updated-deadline").substring(0, 10).replace("/", "-");
+				if (!jobService.validateDeadline(start, end)) {
+					flag = false;
+					req.setAttribute("invalidPeriod", "Please choose Period in future!");
+				}
 			} else {
 				start = req.getParameter("updated-period").substring(0, 10).replace("/", "-");
 				end = req.getParameter("updated-period").substring(14).replace("/", "-");
+				if (!jobService.validatePeriod(start, end)) {
+					flag = false;
+					req.setAttribute("invalidPeriod", "Please choose Period in future!");
+				}
 			}
 			managerID = Integer.parseInt(req.getParameter("updated-manager"));
 
 			req.setAttribute("lstManager", lstManager);
 
-			if (!jobService.validateDeadline(start, end)) {
-				flag = false;
-				req.setAttribute("invalidPeriod", "Please choose Period in future!");
-			}
+			
 			if (name.equals("")) {
 				flag = false;
 				req.setAttribute("blankName", "Project name couldn't be blank");

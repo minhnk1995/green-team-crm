@@ -22,7 +22,7 @@ public class UserRepository {
 		Connection connection = MySqlConnection.getConnection();
 		String query = "SELECT u.id as id, u.fullname as fullname, u.email as email, "
 				+ "u.phone as phone, r.id as role_id, r.name as role_name, r.description as role_description "
-				+ "FROM user u, role r WHERE u.role_id = r.id";
+				+ "FROM users u, roles r WHERE u.role_id = r.id";
 		  
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -62,6 +62,40 @@ public class UserRepository {
 		
 		return users;
 	}
+	
+	public List<UpdateUserDto> getUserDtoByRole(int roleID) throws SQLException {
+		List<UpdateUserDto> lstUser = new ArrayList<>();
+		Connection connection = MySqlConnection.getConnection();
+		String query = "SELECT * from users where role_id = ?";
+		  
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, roleID);
+			ResultSet resultSet = statement.executeQuery();
+			
+			while(resultSet.next()) {
+				UpdateUserDto user = new UpdateUserDto();
+				
+				user.setId(resultSet.getInt("id"));
+				user.setName(resultSet.getString("fullname"));
+				user.setEmail(resultSet.getString("email"));
+				user.setPhone(resultSet.getString("phone"));
+				user.setAddress(resultSet.getString("address"));
+				user.setRoleId(resultSet.getInt("role_id"));
+				
+				lstUser.add(user);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Unable to connect to database.");
+			e.printStackTrace();
+		} finally {
+			connection.close();
+		}
+		
+		return lstUser;
+	}
+	
 	private Role getRoleFromUsers(List<Role> roles, int roleId) {
 		for(Role role : roles)
 			if(role.getId() == roleId)

@@ -48,7 +48,7 @@
 			<c:when test="${lstJob!=null && lstJob.size()>0}">
 				<c:forEach var="lstJob" items="${lstJob}" varStatus="i">
 			   		<div class="card" style="padding:20px; border-radius: 25px">
-		   				<a style="cursor: pointer; text-decoration: none;" href="<%=request.getContextPath() + UrlConst.JOB_DETAIL + "?jobid="%>${lstJob.getId()}">
+		   				<a style="cursor: pointer; text-decoration: none;" href="<%=request.getContextPath() + UrlConst.JOB_DETAIL + "?job="%>${lstJob.getId()}">
 					    	<h1 style="border-style: groove; width: fit-content; padding: 6px;">
 								${lstJob.getName()}  					
 							</h1>
@@ -77,10 +77,10 @@
 				    				<h4 class="card-header__title flex mb-0" style="margin-top:10px;">
 				    					<span>Manager: ${lstJob.getManager().getName() }</span>
 				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser[i.index] : 0 }</span>
-				    					<span style="float:right;">${Duration.between(LocalDateTime.now(), lstJob.getEnd_date()).toDays() } days left</span>
+				    					<span style="float:right;">${Duration.between(LocalDateTime.now().minusDays(1), lstJob.getEnd_date()).toDays() } days left</span>
 				    				</h4>    			
 					    			<div class="progress" style="margin-top:20px; height:30px">
-					  					<div class="progress-bar bg-info" role="progressbar" style="width:${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%</div>
+					  					<div class="progress-bar bg-info" role="progressbar" style="width:${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now().minusDays(1)).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">${Math.round((Duration.between(lstJob.getStart_date(), LocalDateTime.now().minusDays(1)).toDays()*100/Duration.between(lstJob.getStart_date(), lstJob.getEnd_date()).toDays())*100)/100 }%</div>
 									</div>
 					    		</c:otherwise>
 					    	</c:choose>	 

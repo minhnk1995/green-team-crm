@@ -88,11 +88,11 @@
 	    				</c:when>
 	    				<c:otherwise>
 	    					<div style="display:inline-block;">
-			          			<span style="float:right;">${Duration.between(LocalDateTime.now(), job.getEnd_date()).toDays() } days left</span>
+			          			<span style="float:right;">${Duration.between(LocalDateTime.now().minusDays(1), job.getEnd_date()).toDays() } days left</span>
 			          		</div>
 			          		<div class="progress" style="height:20px">
-			  					<div class="progress-bar bg-info" role="progressbar" style="width: ${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-			  					${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now()).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%</div>
+			  					<div class="progress-bar bg-info" role="progressbar" style="width: ${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now().minusDays(1)).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+			  					${Math.round((Duration.between(job.getStart_date(), LocalDateTime.now().minusDays(1)).toDays()*100/Duration.between(job.getStart_date(), job.getEnd_date()).toDays())*100)/100 }%</div>
 							</div>
 	    				</c:otherwise>
     				</c:choose>	          		
@@ -107,10 +107,12 @@
             <div class="container page__heading-container" style="margin-top:1rem">
 		        <div class="d-flex align-items-center">
 		        	<div class="ml-auto" ${user.getRole().getId()==3 ? "hidden" : ""}>
-		                <a href="<%=request.getContextPath() + UrlConst.TASK_CREATE%>" class="btn btn-light">
-		                	<i class="material-icons icon-30pt text-muted mr-1">add</i>
-		    				Add task
-		    			</a>
+		        		<form action="<%=request.getContextPath() + UrlConst.TASK_CREATE%>" method="get">
+		        			<input type="hidden" value="${job.getId() }" name="jobID">
+		        			<button type="submit" class="btn btn-light">
+		        			<i class="material-icons icon-30pt text-muted mr-1">add</i>
+		        			Add task</button>
+		        		</form>
 		            </div>
 		        </div>
 	        </div>
@@ -156,14 +158,8 @@
 			                                		<td><span class="badge badge-success">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                </c:choose>
-			                                <td class="nav-item dropdown">
-			                                	<input type="hidden" value="${lstTask.getId() }" name="jobID">	
-			                                	<a href="alo" class="text-muted nav-link dropdown-toggle"  data-toggle="dropdown" data-caret="false"><i class="material-icons">more_vert</i></a>
-			                                	<div class="dropdown-menu dropdown-menu-right">
-												    <a class="dropdown-item" data-toggle="modal" data-target="#modal-edit-task" href="">Edit</a>
-												    <div class="dropdown-divider"></div>
-												    <a class="dropdown-item" data-toggle="modal" data-target="#modal-remove-task" href="">Remove</a>
-										  		</div>
+			                                <td>
+			                                	<a href="<%=request.getContextPath() + UrlConst.TASK_DETAIL + "?task="%>${lstTask.getId()}" class="text-muted"><i class="material-icons">more_vert</i></a>
 			                                </td>
 			                            </tr>
 									</c:forEach>
@@ -212,7 +208,7 @@
 				            </div>
 				            <div class="form-group">
 				                <label for="updated-descrpt">Description:</label>
-				                <textarea class="form-control" id="updated-descrpt" name="updated-descrpt" rows="4">${job.getName() }</textarea>
+				                <textarea class="form-control" id="updated-descrpt" name="updated-descrpt" rows="4">${job.getDescription() }</textarea>
 				            </div>
 				            <div class="form-group">
 				                <label for="select01">Manager:</label>
@@ -296,118 +292,6 @@
 	    
 	    <!-- ---------------------------------------------------------------------------------- -->
 	    
-	    <!-- EDIT TASK -->
-        <div id="modal-edit-task" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-large-title" aria-hidden="true">
-	        <div class="modal-dialog modal-lg" role="document">
-	            <div class="modal-content">
-	                <div class="modal-header">
-	                    <h5 class="modal-title" id="modal-large-title">Edit Project</h5>
-	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                        <span aria-hidden="true">&times;</span>
-	                    </button>
-	                </div>
-	                
-	                <form action="<%=request.getContextPath() + UrlConst.TASK_EDIT%>" method="post"> 
-		                <!-- // END .modal-header -->
-		                <div class="modal-body">
-	                    	<input type="hidden" value="${job.getId()}" name="jobID">	
-	                    	<input type="hidden" value="${job.getName()}" name="jobName">	
-	                    	<input type="hidden" value="${job.getDescription()}" name="jobDescrpt">
-	                    	<input type="hidden" value="${job.getStart_date()}" name="jobStart">	
-	                    	<input type="hidden" value="${job.getEnd_date()}" name="jobEnd">	
-	                    	<input type="hidden" value="${job.getManager().getId()}" name="jobManager">	
-				            <div class="form-group">
-				                <label for="updated-name">Project Name:</label>
-			                    <c:if test="${invalidName!=null}">
-						        	<h6 style="color:red; margin:5px 0">${invalidName}</h6>
-						        </c:if>
-						        <c:if test="${blankName!=null}">
-						        	<h6 style="color:red; margin:5px 0">${blankName}</h6>
-						        </c:if>
-				                <input type="text" class="form-control" id="updated-name" name="updated-name" placeholder="Project name" value="${job.getName() }">
-				            </div>
-				            <div class="form-group">
-				                <label for="updated-descrpt">Description:</label>
-				                <textarea class="form-control" id="updated-descrpt" name="updated-descrpt" rows="4">${job.getName() }</textarea>
-				            </div>
-				            <div class="form-group">
-				                <label for="select01">Manager:</label>
-				                <c:if test="${invalidManager!=null}">
-						        	<h6 style="color:red; margin:5px 0">${invalidManager}</h6>
-						        </c:if>
-				                <select id="select01" name="updated-manager" data-toggle="select" class="form-control">
-				                	<option value="0">My first option</option>
-					                 <c:forEach var="lstManager" items="${lstManager}">
-					                    <option value="${lstManager.getId() }" ${lstManager.getId() == job.getManager().getId() ? "selected" : "" }> ${lstManager.getName() }</option>
-				                    </c:forEach>
-				                </select>
-				            </div>
-				            <c:choose>
-				            	<c:when test="${LocalDateTime.now().isAfter(job.getStart_date())}">
-				            		<div class="col-lg-4" style="padding:0">
-				                        <div class="card">
-				                            <div class="card-body">
-				                                <label class="text-label" for="dateRangePickerSample01">Deadline</label>
-				                                <input id="dateRangePickerSample01" name="updated-deadline" type="text" class="form-control" placeholder="Date example" data-toggle="daterangepicker" data-daterangepicker-drops="up" data-daterangepicker-start-date="${job.getEnd_date().toLocalDate().toString() }" data-daterangepicker-single-date-picker="true">
-				                            	<input type="hidden" value="1" name="dateStatus">	  
-				                            </div>
-				                        </div>
-				                    </div>
-				                    <small class="text-muted">Due to project already launched, you just only change the deadline</small>
-				            	</c:when>
-				            	<c:otherwise>
-				            		<div class="col-lg-4" style="padding:0">
-					                    <div class="card">
-					                        <div class="card-body">
-					                            <label class="text-label" for="dateRangePickerSample02">Project Period:</label>
-					                            <c:if test="${invalidPeriod!=null}">
-										        	<h6 style="color:red; margin:5px 0">${invalidPeriod}</h6>
-										        </c:if>
-					                            <input id="dateRangePickerSample02" name="updated-period" type="text" class="form-control" placeholder="Range example" data-toggle="daterangepicker" data-daterangepicker-drops="up" data-daterangepicker-start-date="${job.getStart_date().toLocalDate().toString() }" data-daterangepicker-end-date="${job.getEnd_date().toLocalDate().toString() }">
-					                        	<input type="hidden" value="2" name="dateStatus">	  
-					                        </div>
-					                    </div>
-					                </div>
-				            	</c:otherwise>
-				            </c:choose>
-			                
-			                <c:if test="${unable!=null}">
-					        	<h6 style="color:red; margin:5px 0">${unable}</h6>
-					        </c:if>
-		                </div>
-		                <!-- // END .modal-body -->
-		                <div class="modal-footer">		                
-		                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
-		                	<button type="submit" class="btn btn-primary">Update</button>                    
-		                </div>	                
-                	</form>	
-	                <!-- // END .modal-footer -->
-	            </div>
-	            <!-- // END .modal-content -->
-	        </div>
-	        <!-- // END .modal-dialog -->
-	    </div>
-	    <!-- // END EDIT TASK -->		
 	    
-	    <!-- REMOVE TASK -->
-	    <div id="modal-remove-task" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-	        <div class="modal-dialog modal-dialog-centered modal-sm">
-	            <div class="modal-content">
-	                <div class="modal-body text-center p-4">
-	                    <i class="material-icons icon-40pt text-warning mb-2">warning</i>
-	                    <h4>Warning!</h4>
-	                    <p>All of data will be removed permanently. Are you sure to continue?</p>	
-	                    <form action="<%=request.getContextPath() + UrlConst.TASK_REMOVE%>" method="post">
-	                    	                                        
-	                    	<button type="submit" class="btn btn-warning my-2">Delete</button>
-	                    </form>
-	                </div>
-	                <!-- // END .modal-body -->
-	            </div>
-	            <!-- // END .modal-content -->
-	        </div>
-	        <!-- // END .modal-dialog -->
-	    </div>
-	    <!-- // END REMOVE TASK -->
 	</body>
 </html>

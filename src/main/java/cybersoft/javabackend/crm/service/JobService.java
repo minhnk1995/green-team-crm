@@ -34,7 +34,7 @@ public class JobService {
 		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		System.out.println(startDate + " " + endDate);
-		return LocalDate.now().plusDays(1).isAfter(startDate) || LocalDate.now().isBefore(endDate);
+		return LocalDate.now().minusDays(1).isBefore(startDate) && LocalDate.now().isBefore(endDate);
 	}
 
 
@@ -81,7 +81,7 @@ public class JobService {
 		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		System.out.println(startDate + " " + endDate);
-		return startDate.isBefore(endDate) || LocalDate.now().isBefore(endDate);
+		return startDate.isBefore(endDate) && LocalDate.now().isBefore(endDate);
 	}
 
 
@@ -100,11 +100,6 @@ public class JobService {
 					jobRepo.updateTaskStatusToTwo(item.getId());
 				}
 				break;
-			case ComConst.STATUS_DAHOANTHANH:
-				if(LocalDate.now().isBefore(item.getEnd_date().toLocalDate())) {
-					jobRepo.updateTaskStatusToTwo(item.getId());
-				}
-				break;
 			case ComConst.STATUS_DANGTHUCHIEN:
 				if(LocalDate.now().isAfter(item.getEnd_date().toLocalDate())) {
 					jobRepo.updateTaskStatusToThree(item.getId());
@@ -115,5 +110,36 @@ public class JobService {
 				break;
 			}
 		}
+	}
+
+
+	public Task getTaskById(int taskId) {
+		return jobRepo.getTaskById(taskId);
+	}
+
+
+	public boolean addTask(String name, String start, String end, int userId, int jobID) {
+		return jobRepo.addTask(name, start, end, userId, jobID);
+	}
+
+
+	public boolean editTaskById(int taskId, String name, String start, String end, int userId) {
+		return jobRepo.editTaskById(taskId, name, start, end, userId);
+	}
+
+
+	public boolean deleteTaskById(int taskId) {
+		return jobRepo.deleteTaskById(taskId);
+	}
+
+
+	public int getJobIdByTask(int taskId) {
+		return jobRepo.getJobIdByTask(taskId);
+	}
+
+
+	public void commitTask(int taskId) {
+		jobRepo.updateTaskStatusToThree(taskId);;
+		
 	}
 }

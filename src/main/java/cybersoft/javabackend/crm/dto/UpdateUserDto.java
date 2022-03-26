@@ -11,6 +11,8 @@ public class UpdateUserDto {
 	
 	
 	
+	public UpdateUserDto() {
+	}
 	public UpdateUserDto(int id, String name, String password, String email, String phone, String address, int roleId) {
 		
 		this.id = id;

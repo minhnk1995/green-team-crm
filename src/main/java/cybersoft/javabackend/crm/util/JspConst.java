@@ -10,6 +10,10 @@ public class JspConst {
 	public static final String JOB_CREATE = "/WEB-INF/views/job/create-job.jsp";
 	public static final String JOB_DETAIL = "/WEB-INF/views/job/detail-job.jsp";
 	
+	//tas
+	public static final String TASK_CREATE = "/WEB-INF/views/task/create-task.jsp";
+	public static final String TASK_DETAIL = "/WEB-INF/views/task/detail-task.jsp";
+	
 	//result page
 	public static final String JOB_RESULT = "/WEB-INF/views/result-page/job-result.jsp";
 	}
