@@ -24,21 +24,30 @@ public class JobRepository {
 
 		try {
 			Connection conn = MySqlConnection.getConnection();
-			String query = "select distinct j.*, u.*, r.* from jobs j "
+			String query = "select distinct j.*, u.*, r.* from jobs j join users u on j.manager_id = u.id "
+					+ "join roles r on u.role_id = r.id "
+					+ "where j.manager_id in( "
+					+ "select distinct j.manager_id from jobs j "
 					+ "join tasks t on j.id = t.job_id "
 					+ "join users u on j.manager_id = u.id "
 					+ "join roles r on u.role_id = r.id "
-					+ "where t.user_id = ?;";
+					+ "where t.user_id = ? or j.manager_id=? "
+					+ "union "
+					+ "select distinct j.manager_id from jobs j join users u on j.manager_id=u.id "
+					+ "join roles r on u.role_id = r.id "
+					+ "where j.manager_id=?);";
 			PreparedStatement statement = conn.prepareStatement(query);
 			statement.setInt(1, userID);
+			statement.setInt(2, userID);
+			statement.setInt(3, userID);
 			ResultSet res = statement.executeQuery();
 			while (res.next()) {
 				Job job = new Job();
 				User manager = new User();
 				Role role = new Role();
 
-				job.setId(res.getInt("id"));
-				job.setName(res.getString("name"));
+				job.setId(res.getInt("j.id"));
+				job.setName(res.getString("j.name"));
 				job.setDescription(res.getString("description"));
 				job.setStart_date(new Timestamp(res.getDate("start_date").getTime()).toLocalDateTime());
 				job.setEnd_date(new Timestamp(res.getDate("end_date").getTime()).toLocalDateTime());

@@ -8,15 +8,32 @@
 <meta charset="UTF-8">
 
 <title>Xóa Nhân viên</title>
-<jsp:include page="/layout/header.jsp" />
+<link rel="shortcut icon" href='<c:url value="/assets/images/favicon.ico" />' />
+<!-- Perfect Scrollbar --> 
+<link type="text/css" href='<c:url value="/assets/vendor/perfect-scrollbar.css" />' rel="stylesheet" />
+
+<!-- App CSS -->
+   <link type="text/css" href="<c:url value="/assets/css/app.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/app.rtl.css"/>" rel="stylesheet" />
+
+   <!-- Material Design Icons -->
+   <link type="text/css" href="<c:url value="/assets/css/vendor-material-icons.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/vendor-material-icons.rtl.css"/>" rel="stylesheet" />
+
+   <!-- Font Awesome FREE Icons -->
+   <link type="text/css" href="<c:url value="/assets/css/vendor-fontawesome-free.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/vendor-fontawesome-free.rtl.css"/>" rel="stylesheet" />
+
+   <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr.rtl.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr-airbnb.css"/>" rel="stylesheet" />
+   <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr-airbnb.rtl.css"/>" rel="stylesheet" />
 </head>
 <body class="layout-fixed">
 	<div class="preloader"></div>
 	<!-- Header Layout -->
 	<div class="mdk-header-layout js-mdk-header-layout">
-		<jsp:include page="/layout/topbar.jsp" />
 		<div class="mdk-header-layout__content page">
-			<jsp:include page="/layout/navbar.jsp" />
 			<div
 				style="padding-bottom: calc(5.125rem/ 2); position: relative; margin-bottom: 1.5rem;">
 				<div class="bg-primary" style="min-height: 150px;">
