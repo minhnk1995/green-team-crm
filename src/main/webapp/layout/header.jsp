@@ -21,11 +21,10 @@
                             User
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_DASHBOARD %>">
+                            <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.USER_DASHBOARD%>">
                                 User List
                             </a>
-                            <a class="dropdown-item btn"  data-toggle="modal"
-							data-target="#modal-create-user" ${user.getRole().getId()==1 ? "" : "hidden"}>
+                            <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.USER_ADD%>"> ${user.getRole().getId()==1 ? "" : "hidden"}>
                                 Create User
                             </a>
                         </div>
@@ -33,7 +32,7 @@
                     <li class="nav-item dropdown" ${user.getRole().getId()==3 ? "hidden" : ""}>
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Projects</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.JOB_CREATE%>">
                                 Create Project
                             </a>
                         </div>

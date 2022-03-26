@@ -48,7 +48,7 @@
 			    			</a>
 			            </div>
 			            <div class="btn-custom-style">
-			                <a href="" class="btn btn-light" data-toggle="modal" data-target="#modal-create-user">
+			                <a href="<%=request.getContextPath() + UrlConst.USER_ADD%>" class="btn btn-light">
 			                	<i class="material-icons icon-30pt text-muted mr-1" >person_add</i>
 			    				Create New User
 			    			</a>

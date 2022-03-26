@@ -35,6 +35,7 @@
 	    <link type="text/css" href="<c:url value="/assets/css/vendor-flatpickr-airbnb.rtl.css"/>" rel="stylesheet" />
 	    <!-- DateRangePicker -->
     	<link type="text/css" href="<c:url value="/assets/vendor/daterangepicker.css"/>" rel="stylesheet">	
+    	<link type="text/css" href='<c:url value="/assets/vendor/toastr.min.css" />' rel="stylesheet" />
     	<dec:head/>
 	</head>
 	<body class="layout-fixed">
