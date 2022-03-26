@@ -30,6 +30,9 @@
 			<label for="email">Email Address:</label> <input class="form-control"
 				type="email" id="email" required="" name="email"
 				placeholder="john@doe.com" value="${lastUserDto.email }" />
+			<c:if test="${emailExists}">
+				<div class="invalid-feedback">Email already exists!</div>
+			</c:if>
 		</div>
 		<div class="form-group">
 			<label for="password">Password:</label> <input

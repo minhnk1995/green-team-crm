@@ -35,12 +35,35 @@ public class UserService {
 
 	public boolean deleteById(int id) {
 		try {
+			if(userRepo.deleteById(id)) {
+				updateJobAfterDeleteUser(id);
+				updateTaskAfterDeleteUser(id);
+			}
 			return userRepo.deleteById(id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
+
+	private void updateJobAfterDeleteUser(int id) {
+		try {
+			userRepo.updateJobAfterDeleteUser(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void updateTaskAfterDeleteUser(int id) {
+		try {
+			userRepo.updateTaskAfterDeleteUser(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 	public boolean add(UserCreatedDto dto) {
 		try {
@@ -95,5 +118,14 @@ public class UserService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public boolean checkUserExistByEmail(String email) {
+		try {
+			return userRepo.checkEmailExists(email);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

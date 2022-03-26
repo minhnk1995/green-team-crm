@@ -17,6 +17,11 @@
 			float:left;
 			margin-left:1rem;
 		}
+		.link-name:hover {
+			cursor: pointer;
+		    color: blue;
+		    text-decoration: underline;
+		}
 	</style>
 </head>
 <body>
@@ -51,14 +56,6 @@
 				                </div>
 				            </div>
 		            	</c:when>
-		            	<c:otherwise>
-			            	<div class="ml-auto">
-			                	<a href="" data-toggle="modal" data-target="#modal-commit-task" class="btn btn-light">
-				                	<i class="material-icons icon-30pt text-muted mr-1">done</i>
-				    				Commit
-				    			</a>
-			                </div>
-		            	</c:otherwise>
 		            </c:choose>
 		            
 		        </div>
@@ -74,7 +71,7 @@
 		            </div>	
     				<div class="form-group">
 			              <span style="font-weight: bolder;">Employee:</span>
-			              <a>${task.getUser().getName() }</a>
+			              <a class="link-name" href="<%= request.getContextPath() + UrlConst.USER_PROFILE %>?id=${task.getUser().getId()}">${task.getUser().getName() }</a>
 	          		</div>   
 	          		<div class="form-group">
 		                <span style="font-weight: bolder;">From </span>		                
@@ -110,6 +107,18 @@
 	    				</c:otherwise>
     				</c:choose>	       		
                 </div> 
+                <c:choose>		            	
+		            	<c:when test="${user.getId()==task.getUser().getId() && task.getStatus().getId()==ComConst.STATUS_DANGTHUCHIEN}">
+			            	<div class="ml-auto">
+			            		<div class="btn-custom-style">
+				                	<a href="" data-toggle="modal" data-target="#modal-commit-task" class="btn btn-light">
+					                	<i class="material-icons icon-30pt text-muted mr-1">done</i>
+					    				Commit
+					    			</a>
+				    			</div>
+			                </div>
+		            	</c:when>
+		            </c:choose>
             </div>
         </div>
         

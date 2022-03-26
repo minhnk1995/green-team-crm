@@ -130,19 +130,29 @@ public class UserServlet extends HttpServlet {
 	
 	private boolean updateUser(HttpServletRequest req, HttpServletResponse resp) {
 		UpdateUserDto userDto = getUserUpdateDto(req,resp);
+		
+		User user = new User();
+		user = service.getUserById(userDto.getId());
+				
 		req.setAttribute("userUpdate", userDto);
 		boolean userExists = service.checkUserExistByName(userDto.getName());
+		boolean emailExists = service.checkUserExistByEmail(userDto.getEmail());
 		req.setAttribute("lastPassword", userDto.getPassword());
 		req.setAttribute("lastRPassword", userDto.getrPassword());
-		if(userExists) {
+		if(userExists && !userDto.getName().equals(user.getName())) {
 			req.setAttribute("userExists", userExists);
 			return false;
 		}
-		if(!userDto.getPassword().equals(userDto.getrPassword())) {
+		if(emailExists && !userDto.getEmail().equals(user.getEmail())) {
+			req.setAttribute("emailExists", emailExists);
+			return false;
+		}
+		if(!userDto.getPassword().equals(userDto.getrPassword()) && !userDto.getPassword().equals("")) {
 
 			req.setAttribute("validPassword", true);
 			return false;
 		}
+		userDto.setPassword(user.getPassword());
 		return service.updateUser(userDto);
 	}
 	private UpdateUserDto getUserUpdateDto(HttpServletRequest req, HttpServletResponse resp) {
@@ -160,8 +170,13 @@ public class UserServlet extends HttpServlet {
 		UserCreatedDto userDto = createUserDto(req,resp);
 		req.setAttribute("lastUserDto", userDto);
 		boolean userExists = service.checkUserExistByName(userDto.getName());
+		boolean emailExists = service.checkUserExistByEmail(userDto.getEmail());
 		if(userExists) {
 			req.setAttribute("userExists", userExists);
+			return false;
+		}
+		if(emailExists) {
+			req.setAttribute("emailExists", emailExists);
 			return false;
 		}
 		if(!userDto.getPassword().equals(userDto.getrPassword())) {

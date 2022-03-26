@@ -279,7 +279,7 @@ public class UserRepository {
 
 	public User getUserById(int id) throws SQLException {
 		User user = null;
-		String query = "SELECT u.fullname as fullname, u.email as email,"
+		String query = "SELECT u.fullname as fullname, u.email as email, u.password as password,"
 				+ "u.phone as phone,u.address as address, r.id as role_id, r.name as role_name, r.description as role_description"
 				+ " FROM users u, roles r WHERE u.id = ? and u.role_id = r.id";
 
@@ -294,6 +294,7 @@ public class UserRepository {
 				
 				user.setAddress(result.getString("address"));
 				user.setEmail(result.getString("email"));
+				user.setPassword(result.getString("password"));
 				user.setName(result.getString("fullname"));
 				user.setPhone(result.getString("phone"));
 
@@ -328,6 +329,53 @@ public class UserRepository {
 			e.printStackTrace();
 			return false;
 		}finally{
+			connection.close();
+		}
+	}
+
+	public boolean checkEmailExists(String email) throws SQLException {
+		String query = "select * from users u where u.email = ? limit 1";
+		Connection connection = MySqlConnection.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, email);
+			ResultSet result = statement.executeQuery();
+			
+			return result.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			connection.close();
+		}
+	}
+
+	public void updateJobAfterDeleteUser(int id) throws SQLException {
+		String query = "update jobs set manager_id = 0 where manager_id = ?";
+		Connection connection = MySqlConnection.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Unable to connect to database.");
+		} finally {
+			connection.close();
+		}
+	}
+	
+	public void updateTaskAfterDeleteUser(int id) throws SQLException {
+		String query = "update tasks set user_id = 0 where user_id = ?";
+		Connection connection = MySqlConnection.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Unable to connect to database.");
+		} finally {
 			connection.close();
 		}
 	}

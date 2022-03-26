@@ -26,7 +26,7 @@ public class HomeServlet extends HttpServlet {
 	User user;
 	private JobService jobService;
 	private UserService userService;
-	
+
 	@Override
 	public void init() throws ServletException {
 		jobService = new JobService();
@@ -42,15 +42,18 @@ public class HomeServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		user = (User) session.getAttribute("user");
 
-		lstJob = jobService.getAllJobsByUserID(user.getId());
-		if(user.getRole().getId()==ComConst.ROLE_MANAGER) {
-			lstJob.addAll(jobService.getAllJobsByManagerID(user.getId()));
+		if (user.getRole().getId() == ComConst.ROLE_MANAGER) {
+			if (jobService.getAllJobsByManagerID(user.getId()) != null)
+				lstJob.addAll(jobService.getAllJobsByManagerID(user.getId()));
+		} else if (user.getRole().getId() == ComConst.ROLE_ADMIN) {
+			if (jobService.getAllJobWithoutManager() != null)
+				lstJob = jobService.getAllJobWithoutManager();
+			if (jobService.getAllJobs() != null)
+				lstJob.addAll(jobService.getAllJobs());
 		}
-		else if(user.getRole().getId()==ComConst.ROLE_ADMIN) {
-			lstJob.addAll(jobService.getAllJobs());
-		}
+		lstJob.addAll(jobService.getAllJobsByUserID(user.getId()));
 		List<Integer> numUser;
-		if(lstJob!=null) {
+		if (lstJob != null) {
 			Collections.reverse(lstJob);
 			numUser = new ArrayList<>();
 			for (Job job : lstJob) {

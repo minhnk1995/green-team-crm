@@ -15,6 +15,11 @@
 				float:left;
 				margin-left:1rem;
 			}
+			.link-name:hover {
+				cursor: pointer;
+			    color: blue;
+			    text-decoration: underline;
+			}
 		</style>
 		<!-- Toastr -->
     	<link type="text/css" href="<c:url value="/assets/vendor/toastr.min.css"/>" rel="stylesheet">	  
@@ -61,7 +66,14 @@
 		            </div>
 		            <div class="form-group">
 			              <span style="font-weight: bolder;">Manager:</span>
-			              <a>${job.getManager().getName() }</a>
+			               <c:choose>
+	    						<c:when test="${lstJob.getManager().getId()!=0 }">
+	    							<a class="link-name" href="<%= request.getContextPath() + UrlConst.USER_PROFILE %>?id=${job.getManager().getId()}">${job.getManager().getName() }</a>
+	    						</c:when>
+	    						<c:otherwise>
+	    							<span>Nobody</span>
+	    						</c:otherwise>
+	    					</c:choose>
 	          		</div>
 	          		<div class="form-group">
 		                <span style="font-weight: bolder;">From </span>		                
@@ -142,7 +154,7 @@
 			                                <td>
 			                                    <span class="js-lists-values-employee-name">${lstTask.getName()}</span>
 			                                </td>
-			                                <td>${lstTask.getUser().getName()}</td>
+			                                <td><a class="link-name" href="<%= request.getContextPath() + UrlConst.USER_PROFILE %>?id=${lstTask.getUser().getId()}">${lstTask.getUser().getName()}</a></td>
 			                                <td><small>${lstTask.getEnd_date().toLocalDate()}</small></td>	                                	                             
 			                                <c:choose>
 			                                	<c:when test="${lstTask.getStatus().getId()==1}">

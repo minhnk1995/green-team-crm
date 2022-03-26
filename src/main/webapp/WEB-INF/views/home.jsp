@@ -23,6 +23,11 @@
 				float:left;
 				margin-left:1rem;
 			}
+			.link-name:hover {
+				cursor: pointer;
+			    color: blue;
+			    text-decoration: underline;
+			}
 		</style>	
 	</head>
 	<body>
@@ -69,7 +74,14 @@
 					    	<c:choose>
 					    		<c:when test="${LocalDateTime.now().isAfter(lstJob.getEnd_date())}">
 				    				<h4 class="card-header__title flex mb-0" style="margin-top:10px">
-				    					<span>Manager: ${lstJob.getManager().getName() }</span>
+				    					<c:choose>
+				    						<c:when test="${lstJob.getManager().getId()!=0 }">
+				    							<a class="link-name" href="<%= request.getContextPath() + UrlConst.USER_PROFILE %>?id=${lstJob.getManager().getId()}">Manager: ${lstJob.getManager().getName() }</a>
+				    						</c:when>
+				    						<c:otherwise>
+				    							<span>Nobody</span>
+				    						</c:otherwise>
+				    					</c:choose>
 				    					<span style="margin-left: 10%">Number of Participant: ${numUser.size()>0 ? numUser[i.index] : 0}</span>
 				    					<span style="float:right;">Finished!</span>
 				    				</h4>     			

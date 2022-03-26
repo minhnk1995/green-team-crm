@@ -34,6 +34,9 @@
 								<label for="email">Email</label> <input id="email" type="text"
 									class="form-control" placeholder="Full name"
 									value="${userUpdate.email}" name="email" required>
+								<c:if test="${emailExists}">
+									<div class="invalid-feedback">Email already exists.</div>
+								</c:if>
 							</div>
 							<div class="form-group">
 								<label for="address">Address:</label> <input
@@ -57,14 +60,14 @@
 							</div>
 
 							<div class="form-group">
-								<label for="npass">New Password</label> <input required
+								<label for="npass">New Password</label> <input 
 									style="width: 270px;" id="npass" type="password"
 									class="form-control <c:if test="${validPassword}">is-invalid</c:if>"
 									name="password" value="${lastPassword}">
 							</div>
 
 							<div class="form-group">
-								<label for="cpass">Confirm Password</label> <input required
+								<label for="cpass">Confirm Password</label> <input 
 									style="width: 270px;" id="cpass" type="password"
 									class="<c:if test="${validPassword}">is-invalid</c:if> form-control"
 									name="repeatPassword" placeholder="Confirm password"

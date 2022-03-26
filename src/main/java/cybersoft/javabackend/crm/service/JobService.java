@@ -118,13 +118,13 @@ public class JobService {
 	}
 
 
-	public boolean addTask(String name, String start, String end, int userId, int jobID) {
-		return jobRepo.addTask(name, start, end, userId, jobID);
+	public boolean addTask(String name, String start, String end, int userId, int jobID, int status) {
+		return jobRepo.addTask(name, start, end, userId, jobID, status);
 	}
 
 
-	public boolean editTaskById(int taskId, String name, String start, String end, int userId) {
-		return jobRepo.editTaskById(taskId, name, start, end, userId);
+	public boolean editTaskById(int taskId, String name, String start, String end, int userId, int status) {
+		return jobRepo.editTaskById(taskId, name, start, end, userId, status);
 	}
 
 
@@ -141,5 +141,31 @@ public class JobService {
 	public void commitTask(int taskId) {
 		jobRepo.updateTaskStatusToThree(taskId);;
 		
+	}
+
+
+	public boolean validatePeriodTask(String start, String end, String jobStart, String jobEnd) {
+		LocalDate startDate, endDate, jobStartDate, jobEndDate;
+
+		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		jobStartDate = LocalDate.parse(jobStart, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		jobEndDate = LocalDate.parse(jobEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		return startDate.plusDays(1).isAfter(jobStartDate) && endDate.minusDays(1).isBefore(jobEndDate);
+	}
+
+
+	public boolean validateDeadlineTask(String start, String end, String jobEnd) {
+		LocalDate startDate, endDate, jobEndDate;
+
+		startDate = LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		endDate = LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		jobEndDate = LocalDate.parse(jobEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		return endDate.plusDays(1).isAfter(startDate) && endDate.minusDays(1).isBefore(jobEndDate);
+	}
+
+
+	public List<Job> getAllJobWithoutManager() {
+		return jobRepo.getAllJobWithoutManager();
 	}
 }

@@ -539,7 +539,7 @@ public class JobRepository {
 			Connection conn = MySqlConnection.getConnection();
 			String query = "select distinct t.*, s.*, j.*, u.*, r.* from tasks t join status s on t.status_id=s.id "
 					+ "join jobs j on t.job_id=j.id "
-					+ "join users u on j.manager_id=u.id "
+					+ "join users u on t.user_id=u.id "
 					+ "join roles r on u.role_id=r.id "
 					+ "where t.id=?;";
 			PreparedStatement statement = conn.prepareStatement(query);
@@ -590,9 +590,9 @@ public class JobRepository {
 		return null;
 	}
 
-	public boolean addTask(String name, String start, String end, int userId, int jobID) {
+	public boolean addTask(String name, String start, String end, int userId, int jobID, int status) {
 		String query = "insert into tasks(name, start_date, end_date, user_id, job_id, status_id)"
-				+ "values(?,?,?,?,?,1);";
+				+ "values(?,?,?,?,?,?);";
 		
 		Connection conn = MySqlConnection.getConnection();
 		
@@ -603,6 +603,7 @@ public class JobRepository {
 			statement.setString(3, end);
 			statement.setInt(4, userId);
 			statement.setInt(5, jobID);
+			statement.setInt(6, status);
 			
 			statement.executeUpdate();
 			conn.close();
@@ -613,8 +614,8 @@ public class JobRepository {
 		return true;
 	}
 
-	public boolean editTaskById(int taskId, String name, String start, String end, int userId) {
-		String query = "update tasks set name=?, start_date=?, end_date=?, user_id=? where id=?; ";
+	public boolean editTaskById(int taskId, String name, String start, String end, int userId, int status) {
+		String query = "update tasks set name=?, start_date=?, end_date=?, user_id=?, status_id=? where id=?; ";
 		
 		Connection conn = MySqlConnection.getConnection();
 		
@@ -624,7 +625,8 @@ public class JobRepository {
 			statement.setString(2, start);
 			statement.setString(3, end);
 			statement.setInt(4, userId);
-			statement.setInt(5, taskId);
+			statement.setInt(5, status);
+			statement.setInt(6, taskId);
 			
 			statement.executeUpdate();
 			conn.close();
@@ -666,5 +668,36 @@ public class JobRepository {
 			e.printStackTrace();
 		}
 		return jobID;
+	}
+
+	public List<Job> getAllJobWithoutManager() {
+		List<Job> lstJob = new ArrayList<>();
+
+		try {
+			Connection conn = MySqlConnection.getConnection();
+			String query = "select * from jobs where manager_id=0;";
+			PreparedStatement statement = conn.prepareStatement(query);
+			ResultSet res = statement.executeQuery();
+			while (res.next()) {
+				Job job = new Job();
+				User manager = new User();
+
+				job.setId(res.getInt("id"));
+				job.setName(res.getString("name"));
+				job.setDescription(res.getString("description"));
+				job.setStart_date(new Timestamp(res.getDate("start_date").getTime()).toLocalDateTime());
+				job.setEnd_date(new Timestamp(res.getDate("end_date").getTime()).toLocalDateTime());
+
+				manager.setId(0);
+				job.setManagerID(manager);
+				
+				lstJob.add(job);
+			}
+			conn.close();
+			return lstJob;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -99,8 +99,7 @@
 	    
 		<input hidden id="createSuccessToastr" value="${createSuccessToastr == null ? '': createSuccessToastr}"/>
 		<input hidden id="createFailToastr" value="${createFailToastr == null ? '': createFailToastr}"/>	
-			
-		<jsp:include page="/layout/footer.jsp" />	
+
 		<dec:getProperty property="page.scripts" />	
 	</body>
 </html>

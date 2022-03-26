@@ -24,7 +24,7 @@
                             <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.USER_DASHBOARD%>">
                                 User List
                             </a>
-                            <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.USER_ADD%>"> ${user.getRole().getId()==1 ? "" : "hidden"}>
+                            <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.USER_ADD%>" ${user.getRole().getId()==1 ? "" : "hidden"}>
                                 Create User
                             </a>
                         </div>

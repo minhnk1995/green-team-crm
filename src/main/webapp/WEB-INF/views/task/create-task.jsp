@@ -4,6 +4,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import = "java.time.Duration" %>
 <%@ page import = "java.time.LocalDateTime" %>
+<%@ page import = "java.time.LocalDate" %>
 <%@ page import = "java.lang.Math" %>
 <!DOCTYPE html>
 <html>
@@ -53,6 +54,9 @@
 	                    <option value="${lstUser.getId() }">${lstUser.getName() }</option>
                     </c:forEach>
                 </select>
+            </div>
+            <div class="form-group">
+            	<span>Please choose the period from ${job.getStart_date().toLocalDate() } to ${job.getEnd_date().toLocalDate()}</span>
             </div>
                <div class="col-lg-4" style="padding:0">
                    <div class="card">
