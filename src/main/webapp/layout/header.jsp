@@ -21,16 +21,14 @@
                             User
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_DASHBOARD %>">
                                 User List
                             </a>
-                            <a class="dropdown-item" href="#" ${user.getRole().getId()==1 ? "" : "hidden"}>
+                            <a class="dropdown-item btn"  data-toggle="modal"
+							data-target="#modal-create-user" ${user.getRole().getId()==1 ? "" : "hidden"}>
                                 Create User
                             </a>
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" ${user.getRole().getId()==1 ? "" : "hidden"}>Manage Role</a>
                     </li>
                     <li class="nav-item dropdown" ${user.getRole().getId()==3 ? "hidden" : ""}>
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Projects</a>
@@ -58,8 +56,8 @@
 		                        <div>${user.getEmail()}</div>
 		                    </div>
 		                    <div class="dropdown-divider"></div>
-		                    <a class="dropdown-item" href="profile.html"> My profile </a>
-		                    <a class="dropdown-item" href="account-edit.html">Edit account </a>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_PROFILE%>?id=${user.id}"> My profile </a>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_UPDATE%>?id=${user.id}">Edit account </a>
 		                    <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.AUTH_OUT%>">Logout</a>
 		                </div>

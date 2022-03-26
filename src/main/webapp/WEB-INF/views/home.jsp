@@ -17,6 +17,12 @@
 	    		background: #effeff;
 	    		
 			}
+		</style>
+		<style>
+			.btn-custom-style {
+				float:left;
+				margin-left:1rem;
+			}
 		</style>	
 	</head>
 	<body>
@@ -35,16 +41,19 @@
 		                <h1 class="m-0">Dashboard</h1>
 		            </div>
 		            <div class="ml-auto" ${user.getRole().getId()==3 ? "hidden" : ""}>
-		                <a href="<%=request.getContextPath() + UrlConst.JOB_CREATE%>" class="btn btn-light">
-		                	<i class="material-icons icon-30pt text-muted mr-1">add</i>
-		    				Create a new Project
-		    			</a>
+			            <div class="btn-custom-style">
+			                <a href="<%=request.getContextPath() + UrlConst.JOB_CREATE%>" class="btn btn-light">
+			                	<i class="material-icons icon-30pt text-muted mr-1">add</i>
+			    				Create a new Project
+			    			</a>
+			            </div>
+			            <div class="btn-custom-style">
+			                <a href="" class="btn btn-light" data-toggle="modal" data-target="#modal-create-user">
+			                	<i class="material-icons icon-30pt text-muted mr-1" >person_add</i>
+			    				Create New User
+			    			</a>
+			            </div>
 		            </div>
-		            <div class="ml-auto">
-					<a href="<%= request.getContextPath() + UrlConst.USER_DASHBOARD %>" class="btn btn-light"><i
-						class="material-icons mr-1 icon-18pt">folder_shared</i>
-						Danh Sách nhân viên</a>
-				</div>
 		        </div>
 		    </div>
 		</div>	

@@ -3,6 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="cybersoft.javabackend.crm.util.UrlConst"%>
+<%@page import="cybersoft.javabackend.crm.util.ComConst"%>
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -84,18 +85,19 @@
 
 									</c:choose></td>
 								<td>
-									<a href="<%= request.getContextPath() + UrlConst.USER_UPDATE%>?id=${user.id}" class="btn btn-primary d-inline-flex text-white">
-										<i class="material-icons">create</i>
-									</a>
-									
+									<div style="display: inline;" ${curUser.getRole().getId() == ComConst.ROLE_USER ? "hidden" : "" }>
+										<a href="<%= request.getContextPath() + UrlConst.USER_UPDATE%>?id=${user.id}" class="btn btn-primary d-inline-flex text-white">
+											<i class="material-icons">create</i>
+										</a>
+									</div>													
 									<a href="<%= request.getContextPath() + UrlConst.USER_PROFILE %>?id=${user.id}" class="btn btn-success d-inline-flex text-white">
 										<i class="material-icons">account_box</i>
 									</a>
-									<a href="<%= request.getContextPath() + UrlConst.USER_DELETE %>?id=${user.id}" class="btn btn-danger d-inline-flex text-white">
-										<i class="material-icons">delete</i>
-									</a>
-									
-
+									<div style="display: inline;" ${curUser.getRole().getId() == ComConst.ROLE_USER ? "hidden" : "" }>
+										<a href="<%= request.getContextPath() + UrlConst.USER_DELETE %>?id=${user.id}" class="btn btn-danger d-inline-flex text-white">
+											<i class="material-icons">delete</i>
+										</a>									
+									</div>							
 								</td>
 							</tr>
 						</c:forEach>

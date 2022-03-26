@@ -8,15 +8,15 @@
 <meta charset="UTF-8">
 
 <title>Xóa Nhân viên</title>
-<jsp:include page="/decorators/layout/header.jsp" />
+<jsp:include page="/layout/header.jsp" />
 </head>
 <body class="layout-fixed">
 	<div class="preloader"></div>
 	<!-- Header Layout -->
 	<div class="mdk-header-layout js-mdk-header-layout">
-		<jsp:include page="/decorators/layout/topbar.jsp" />
+		<jsp:include page="/layout/topbar.jsp" />
 		<div class="mdk-header-layout__content page">
-			<jsp:include page="/decorators/layout/navbar.jsp" />
+			<jsp:include page="/layout/navbar.jsp" />
 			<div
 				style="padding-bottom: calc(5.125rem/ 2); position: relative; margin-bottom: 1.5rem;">
 				<div class="bg-primary" style="min-height: 150px;">
@@ -72,7 +72,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="/decorators/layout/footer.jsp" />
+	<jsp:include page="/layout/footer.jsp" />
 	
 	
 	<div id="modal-delete-user" class="modal fade" tabindex="-1"

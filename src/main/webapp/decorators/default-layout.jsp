@@ -11,6 +11,10 @@
 		<title>
 			CRM - <dec:title />
 		</title>
+		<link rel="shortcut icon" href='<c:url value="/assets/images/favicon.ico" />' />
+		<!-- Perfect Scrollbar --> 
+		<link type="text/css" href='<c:url value="/assets/vendor/perfect-scrollbar.css" />' rel="stylesheet" />
+
 		<!-- App CSS -->
 	    <link type="text/css" href="<c:url value="/assets/css/app.css"/>" rel="stylesheet" />
 	    <link type="text/css" href="<c:url value="/assets/css/app.rtl.css"/>" rel="stylesheet" />
@@ -89,18 +93,8 @@
 	    <!-- Toastr -->
 	    <script src="<c:url value="/assets/vendor/toastr.min.js"/>"></script>
 	    <script src="<c:url value="/assets/js/toastr.js"/>"></script>
-
-		<!-- Header Layout -->
-    	<div class="mdk-header-layout js-mdk-header-layout">
-    		<jsp:include page="/decorators/layout/topbar.jsp" />
-    		<div class="mdk-header-layout__content page">
-    			<jsp:include page="/decorators/layout/navbar.jsp" />
-    			<dec:body />
-    		</div>
-    	</div>
-    	<jsp:include page="/decorators/layout/modals.jsp"/>
-    	
-		<jsp:include page="/decorators/layout/footer.jsp" />
+	    
+    	<jsp:include page="/layout/modals.jsp"/>
 		<dec:getProperty property="page.scripts" />
 	</body>
 </html>

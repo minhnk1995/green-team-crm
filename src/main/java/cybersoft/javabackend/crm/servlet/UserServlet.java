@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cybersoft.javabackend.crm.dto.UpdateUserDto;
 import cybersoft.javabackend.crm.dto.UserDto;
@@ -31,12 +32,17 @@ public class UserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id;
+		User user = new User();
+		HttpSession session = req.getSession();
+		user = (User) session.getAttribute("user");
+		
 		switch (req.getServletPath()) {
 
 		// danh sách
 		case UrlConst.USER_DASHBOARD:
 			List<User> users = service.getAllUser();
 			req.setAttribute("users", users);
+			req.setAttribute("curUser", user);
 			req.getRequestDispatcher(JspConst.USER_DASHBOARD).forward(req, resp);;
 			// view dashboard
 			break;
@@ -73,6 +79,7 @@ public class UserServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
 		switch (req.getServletPath()) {
 
 		// danh sách
