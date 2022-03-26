@@ -48,8 +48,6 @@ public class HomeServlet extends HttpServlet {
 		} else if (user.getRole().getId() == ComConst.ROLE_ADMIN) {
 			if (jobService.getAllJobWithoutManager() != null)
 				lstJob = jobService.getAllJobWithoutManager();
-			if (jobService.getAllJobs() != null)
-				lstJob.addAll(jobService.getAllJobs());
 		}
 		lstJob.addAll(jobService.getAllJobsByUserID(user.getId()));
 		List<Integer> numUser;
