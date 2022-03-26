@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 
 import cybersoft.javabackend.crm.dto.UpdateUserDto;
+import cybersoft.javabackend.crm.dto.UserCreatedDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.User;
 import cybersoft.javabackend.crm.repository.UserRepository;
@@ -40,7 +41,7 @@ public class UserService {
 		return false;
 	}
 
-	public boolean add(UserDto dto) {
+	public boolean add(UserCreatedDto dto) {
 		try {
 			return userRepo.addUser(dto);
 		} catch (SQLException e) {
@@ -59,14 +60,13 @@ public class UserService {
 		return null;
 	}
 
-	public UserDto getUserByName(String name) {
-		UserDto user = null;
+	public boolean checkUserExistByName(String name) {
 		try {
-			user = userRepo.getUserByName(name);
+			return userRepo.checkUserNameExists(name);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return user;
+		return false;
 	}
 
 	public boolean updateUser(UpdateUserDto user) {

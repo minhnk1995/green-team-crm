@@ -18,6 +18,8 @@ public class JspConst {
 	public static final String USER_DASHBOARD = "/WEB-INF/views/user/user-list.jsp";
 	public static final String USER_UPDATE = "/WEB-INF/views/user/user-update.jsp";
 	public static final String USER_DELETE = "/WEB-INF/views/user/user-delete.jsp";
+	public static final String USER_ADD = "/WEB-INF/views/user/user-add.jsp";
+	
 	
 	
 	

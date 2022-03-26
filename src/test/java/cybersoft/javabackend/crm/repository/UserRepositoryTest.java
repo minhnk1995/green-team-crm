@@ -12,6 +12,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import cybersoft.javabackend.crm.dto.UpdateUserDto;
+import cybersoft.javabackend.crm.dto.UserCreatedDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.User;
 
@@ -24,7 +25,7 @@ public class UserRepositoryTest {
 	}
 	@Test
 	public void addUserTest() {
-		UserDto user = new UserDto("admin@gamil.com","admin2","admin2","0002","HCM",2);
+		UserCreatedDto user = new UserCreatedDto("admin@gamil.com","admin2","admin2","admin2","0002","HCM",2);
 		
 		try {
 			assertNotEquals(repo.addUser(user), false);
@@ -46,7 +47,7 @@ public class UserRepositoryTest {
 	}
 	@Test
 	public void updateUserTest() {
-		UpdateUserDto userDto = new UpdateUserDto(1, "admin 1", "1234", "nhandeptrai@gmail.com","0923", "hcm",1);
+		UpdateUserDto userDto = new UpdateUserDto(1, "admin 1", "1234","1234", "nhandeptrai@gmail.com","0923", "hcm",1);
 		try {
 			assertNotEquals(repo.updateUser(userDto), false);
 		} catch (SQLException e) {

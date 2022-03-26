@@ -34,6 +34,9 @@
 <script src='<c:url value="/assets/js/sidebar-mini.js" />'></script>
 <script src='<c:url value="/assets/js/app.js" />'></script>
 
+
+
+
 <!-- App Settings (safe to remove) -->
 <script src='<c:url value="/assets/js/app-settings.js" />'></script>
 
@@ -43,3 +46,9 @@
 
 <!-- Global Settings -->
 <script src='<c:url value="/assets/js/settings.js" />'></script>
+
+
+<!-- toastr Settings -->
+<script src='<c:url value="/assets/vendor/toastr.min.js" />'></script>
+<script src='<c:url value="/assets/js/custom-toastr.js" />'></script>
+

@@ -26,6 +26,10 @@ public class AuthFilter implements Filter {
 		String path = req.getServletPath();
 		Object user = req.getSession().getAttribute("user");
 		
+		req.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html; charset=UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+        
 		if(path.startsWith(UrlConst.ASSETS))
 			chain.doFilter(request, response);
 		else if(path.startsWith(UrlConst.AUTH_LOGIN)) {			

@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.connector.Response;
+
 import cybersoft.javabackend.crm.dto.UpdateUserDto;
+import cybersoft.javabackend.crm.dto.UserCreatedDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.User;
 import cybersoft.javabackend.crm.service.UserService;
@@ -42,7 +45,7 @@ public class UserServlet extends HttpServlet {
 			break;
 		// thêm nhân viên
 		case UrlConst.USER_ADD:
-			req.getRequestDispatcher(JspConst.HOME).forward(req, resp);
+			req.getRequestDispatcher(JspConst.USER_ADD).forward(req, resp);
 			// view
 			break;
 		// xóa nhân viên
@@ -73,6 +76,7 @@ public class UserServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id;
 		switch (req.getServletPath()) {
 
 		// danh sách
@@ -81,12 +85,18 @@ public class UserServlet extends HttpServlet {
 			break;
 		// thêm nhân viên
 		case UrlConst.USER_ADD:
-			addUserPost(req,resp);
-			req.getRequestDispatcher(JspConst.RESULT_INSERT).forward(req, resp);
+			if(!addUserPost(req,resp)) {
+				req.setAttribute("createFailToastr", "Thêm nhân viên thất bại,Xin thử lại!!");
+				req.getRequestDispatcher(JspConst.USER_ADD).forward(req, resp);
+				break;	
+			}
+			req.setAttribute("createSuccessToastr", "Thêm nhân viên thành công!!");
+			req.getRequestDispatcher(JspConst.USER_ADD).forward(req, resp);
+//			resp.sendRedirect(req.getContextPath() + UrlConst.HOME);
 			break;
 		// xóa nhân viên
 		case UrlConst.USER_DELETE:
-			int id = Integer.parseInt(req.getParameter("id"));
+			id = Integer.parseInt(req.getParameter("id"));
 			if(!service.deleteById(id)) {
 				resp.sendRedirect(req.getContextPath() +UrlConst.USER_PROFILE+"?id=" + id);
 			}else {
@@ -98,23 +108,36 @@ public class UserServlet extends HttpServlet {
 
 			break;
 		case UrlConst.USER_UPDATE:
-			UpdateUserDto user = getUserUpdateDto(req,resp);
-			if(user == null) {
-				User userCurrentUpdate = service.getUserById(Integer.parseInt(req.getParameter("id")));
-				req.setAttribute("userUpdate", userCurrentUpdate);
+			id = Integer.parseInt(req.getParameter("id"));
+			boolean resultUpdate = updateUser(req,resp) ;
+			if(!resultUpdate) {
 				req.getRequestDispatcher(JspConst.USER_UPDATE).forward(req, resp);
+//				resp.sendRedirect(req.getContextPath() +UrlConst.USER_PROFILE+"?id=" +id);
 				break;
 			}
-			boolean resultUpdate = service.updateUser(user);
-			if(resultUpdate) {
-				resp.sendRedirect(req.getContextPath() +UrlConst.USER_PROFILE+"?id=" +user.getId());
-			}else {
-				resp.sendRedirect(req.getContextPath() +UrlConst.USER_UPDATE+"?id=" +user.getId());
-			}
+			resp.sendRedirect(req.getContextPath() +UrlConst.USER_PROFILE+"?id=" +id);
 			break;
 		}
 	}
 
+	
+	private boolean updateUser(HttpServletRequest req, HttpServletResponse resp) {
+		UpdateUserDto userDto = getUserUpdateDto(req,resp);
+		req.setAttribute("userUpdate", userDto);
+		boolean userExists = service.checkUserExistByName(userDto.getName());
+		req.setAttribute("lastPassword", userDto.getPassword());
+		req.setAttribute("lastRPassword", userDto.getrPassword());
+		if(userExists) {
+			req.setAttribute("userExists", userExists);
+			return false;
+		}
+		if(!userDto.getPassword().equals(userDto.getrPassword())) {
+
+			req.setAttribute("validPassword", true);
+			return false;
+		}
+		return service.updateUser(userDto);
+	}
 	private UpdateUserDto getUserUpdateDto(HttpServletRequest req, HttpServletResponse resp) {
 		int id =Integer.parseInt(req.getParameter("id"));
 		String name = req.getParameter("name");
@@ -122,32 +145,39 @@ public class UserServlet extends HttpServlet {
 		String phone = req.getParameter("phone");
 		String address = req.getParameter("address");
 		String password = req.getParameter("password");
-		String repeatPassword = req.getParameter("repeatPassword");
+		String rPassword = req.getParameter("repeatPassword");
 		int roleId = Integer.parseInt(req.getParameter("roleId"));
-		boolean validPassword = password.equalsIgnoreCase(repeatPassword);
-		if(!validPassword) {
-			req.setAttribute("lastPassword", password);
-			req.setAttribute("lastRPassword", repeatPassword);
-			req.setAttribute("validPassword", !validPassword);
-			return null;
-		}
-		return new UpdateUserDto(id,name, repeatPassword, email, phone, address,roleId);
+		return new UpdateUserDto(id,name, password,rPassword, email, phone, address,roleId);
 	}
-	private void addUserPost(HttpServletRequest req, HttpServletResponse resp) {
-		UserDto userDto = createUserDto(req,resp);
-		boolean insertStatus = service.add(userDto);
-		req.setAttribute("insertStatus", insertStatus);
+	private boolean addUserPost(HttpServletRequest req, HttpServletResponse resp) {
+		UserCreatedDto userDto = createUserDto(req,resp);
+		req.setAttribute("lastUserDto", userDto);
+		boolean userExists = service.checkUserExistByName(userDto.getName());
+		if(userExists) {
+			req.setAttribute("userExists", userExists);
+			return false;
+		}
+		if(!userDto.getPassword().equals(userDto.getrPassword())) {
+			req.setAttribute("validPassword", true);
+			return false;
+		}
+		return service.add(userDto);
+	
+		
 	}
 
-	private UserDto createUserDto(HttpServletRequest req, HttpServletResponse resp) {
+	private UserCreatedDto createUserDto(HttpServletRequest req, HttpServletResponse resp) {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
+		String rPassword = req.getParameter("rPassword");
+		
 		String name = req.getParameter("name");
 		String phone = req.getParameter("phone");
 		String address = req.getParameter("address");
 		int roleId = Integer.parseInt(req.getParameter("role"));
-		System.out.println(email + " " + password + " " + name + " " + phone + " " + address + " " + roleId);
-		return new UserDto(email,password,name,phone,address,roleId);
+		System.out.println(email + " " + password + "pre " + rPassword + " " + name + " " + phone + " " + address + " " + roleId);
+	
+		return new UserCreatedDto(email,password,rPassword,name,phone,address,roleId);
 	}
 
 }

@@ -59,10 +59,9 @@
 								class="material-icons text-white icon-18pt"> person_add </i>
 							</span>
 						</div>
-						<button type="button" class="btn" data-toggle="modal"
-							data-target="#modal-create-user">
+						<a type="button" class="btn" href="<%= request.getContextPath() + UrlConst.USER_ADD%>">
 							<strong>Create New User</strong>
-						</button>
+						</a>
 					</div>
 				</div>
 			</div>

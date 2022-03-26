@@ -10,6 +10,7 @@ import java.util.List;
 
 import cybersoft.javabackend.crm.dbconnection.MySqlConnection;
 import cybersoft.javabackend.crm.dto.UpdateUserDto;
+import cybersoft.javabackend.crm.dto.UserCreatedDto;
 import cybersoft.javabackend.crm.dto.UserDto;
 import cybersoft.javabackend.crm.model.Role;
 import cybersoft.javabackend.crm.model.User;
@@ -148,7 +149,7 @@ public class UserRepository {
 		return false;
 	}
 
-	public boolean addUser(UserDto userDto) throws SQLException {
+	public boolean addUser(UserCreatedDto userDto) throws SQLException {
 		String query = "insert into users(email,password,fullname,phone,address,role_id)" + "values(?,?,?,?,?,?);";
 
 		Connection conn = MySqlConnection.getConnection();
@@ -212,31 +213,20 @@ public class UserRepository {
 		return user;
 	}
 
-	public UserDto getUserByName(String name) throws SQLException {
-		UserDto user = null;
-		String query = "select * from users u where u.fullname = '?'";
+	public boolean checkUserNameExists(String name) throws SQLException {
+		String query = "select * from users u where u.fullname = ? limit 1";
 		Connection connection = MySqlConnection.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setString(1, name);
 			ResultSet result = statement.executeQuery();
-			while(result.next()) {
-				user = new UserDto();
-				
-				user.setAddress(result.getString("address"));
-				user.setEmail(result.getString("email"));
-				user.setName(result.getString("fullname"));
-				user.setPhone(result.getString("phone"));
-				user.setRoleId(result.getInt("role_id"));
-			}
-		} catch (SQLException e) {
 			
+			return result.next();
+		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}finally{
 			connection.close();
 		}
-		
-		
-		return user;
 	}
 }
