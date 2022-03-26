@@ -29,7 +29,7 @@
 	<div class="row">
 		<div class="col-lg-3">
 			<h1 class="h4 mb-1">${userProfile.name}</h1>
-			<p class="text-muted">@${userProfile.name}n</p>
+			<p class="text-muted">@${userProfile.name}</p>
 			<p>CRM Admin For Green Team</p>
 			<div class="text-muted d-flex align-items-center">
 				<i class="material-icons mr-1">location_on</i>

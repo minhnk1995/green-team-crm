@@ -22,9 +22,13 @@
 							method="post">
 							<input hidden value="<%=request.getParameter("id")%>" name="id" />
 							<div class="form-group">
-								<label for="fname">Full name</label> <input id="fname"
-									type="text" class="form-control" placeholder="Full name"
+								<label for="fname">Full name</label> 
+								<input id="fname"
+									type="text" class="form-control <c:if test="${userExists}">is-invalid</c:if>" placeholder="Full name"
 									value="${userUpdate.name}" name="name" required>
+								<c:if test="${userExists}">
+									<div class="invalid-feedback">User already exists.</div>
+								</c:if>
 							</div>
 							<div class="form-group">
 								<label for="email">Email</label> <input id="email" type="text"
@@ -53,14 +57,14 @@
 							</div>
 
 							<div class="form-group">
-								<label for="npass">New Password</label> <input
+								<label for="npass">New Password</label> <input required
 									style="width: 270px;" id="npass" type="password"
 									class="form-control <c:if test="${validPassword}">is-invalid</c:if>"
 									name="password" value="${lastPassword}">
 							</div>
 
 							<div class="form-group">
-								<label for="cpass">Confirm Password</label> <input
+								<label for="cpass">Confirm Password</label> <input required
 									style="width: 270px;" id="cpass" type="password"
 									class="<c:if test="${validPassword}">is-invalid</c:if> form-control"
 									name="repeatPassword" placeholder="Confirm password"

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="dec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -94,7 +96,10 @@
 	    <script src="<c:url value="/assets/vendor/toastr.min.js"/>"></script>
 	    <script src="<c:url value="/assets/js/toastr.js"/>"></script>
 	    
-    	<jsp:include page="/layout/modals.jsp"/>
-		<dec:getProperty property="page.scripts" />
+		<input hidden id="createSuccessToastr" value="${createSuccessToastr == null ? '': createSuccessToastr}"/>
+		<input hidden id="createFailToastr" value="${createFailToastr == null ? '': createFailToastr}"/>	
+			
+		<jsp:include page="/layout/footer.jsp" />	
+		<dec:getProperty property="page.scripts" />	
 	</body>
 </html>
