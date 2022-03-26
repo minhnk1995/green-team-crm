@@ -89,5 +89,18 @@
 	    <!-- Toastr -->
 	    <script src="<c:url value="/assets/vendor/toastr.min.js"/>"></script>
 	    <script src="<c:url value="/assets/js/toastr.js"/>"></script>
+
+		<!-- Header Layout -->
+    	<div class="mdk-header-layout js-mdk-header-layout">
+    		<jsp:include page="/decorators/layout/topbar.jsp" />
+    		<div class="mdk-header-layout__content page">
+    			<jsp:include page="/decorators/layout/navbar.jsp" />
+    			<dec:body />
+    		</div>
+    	</div>
+    	<jsp:include page="/decorators/layout/modals.jsp"/>
+    	
+		<jsp:include page="/decorators/layout/footer.jsp" />
+		<dec:getProperty property="page.scripts" />
 	</body>
 </html>

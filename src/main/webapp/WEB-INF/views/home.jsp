@@ -40,6 +40,11 @@
 		    				Create a new Project
 		    			</a>
 		            </div>
+		            <div class="ml-auto">
+					<a href="<%= request.getContextPath() + UrlConst.USER_DASHBOARD %>" class="btn btn-light"><i
+						class="material-icons mr-1 icon-18pt">folder_shared</i>
+						Danh Sách nhân viên</a>
+				</div>
 		        </div>
 		    </div>
 		</div>	

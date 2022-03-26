@@ -16,7 +16,7 @@
 
                 <!-- Navbar Brand -->
                 <a href="<%= request.getContextPath() + UrlConst.HOME %>" class="navbar-brand">
-                    <img class="navbar-brand-icon" src="assets/images/logo.png" height="50" alt="Cybersoft" />
+                    <img class="navbar-brand-icon" src='<c:url value="/assets/images/logo.png"/>' height="50" alt="Cybersoft" />
                 </a>
 
                 <span class="mr-3"></span>
@@ -49,7 +49,7 @@
                                     <div class="dropdown-item d-flex">
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm" style="width: 32px; height: 32px">
-                                                <img src="assets/images/256_daniel-gaffey-1060698-unsplash.jpg" alt="Avatar" class="avatar-img rounded-circle" />
+                                                <img src='<c:url value="/assets/images/avatars/tuanphan.jpg"/>' alt="Avatar" class="avatar-img rounded-circle" />
                                             </div>
                                         </div>
                                         <div class="flex">
@@ -96,7 +96,7 @@
                                     <div class="dropdown-item d-flex">
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm" style="width: 32px; height: 32px">
-                                                <img src="assets/images/256_daniel-gaffey-1060698-unsplash.jpg" alt="Avatar" class="avatar-img rounded-circle" />
+                                                <img src='<c:url value="assets/images/256_daniel-gaffey-1060698-unsplash.jpg"/>' alt="Avatar" class="avatar-img rounded-circle" />
                                             </div>
                                         </div>
                                         <div class="flex">
@@ -131,8 +131,8 @@
 		                        <div>${user.getEmail()}</div>
 		                    </div>
 		                    <div class="dropdown-divider"></div>
-		                    <a class="dropdown-item" href="profile.html"> My profile </a>
-		                    <a class="dropdown-item" href="account-edit.html">Edit account </a>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_PROFILE%>?id=${user.id}"> My profile </a>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_UPDATE%>?id=${user.id}">Edit account </a>
 		                    <div class="dropdown-divider"></div>
 		                    <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.AUTH_OUT%>">Logout</a>
 		                </div>
