@@ -27,7 +27,8 @@
 			</c:if>
 		</div>
 		<div class="form-group">
-			<label for="email">Email Address:</label> <input class="form-control"
+			<label for="email">Email Address:</label> <input 
+				class="<c:if test="${emailExists}">is-invalid</c:if> form-control"
 				type="email" id="email" required="" name="email"
 				placeholder="john@doe.com" value="${lastUserDto.email }" />
 			<c:if test="${emailExists}">

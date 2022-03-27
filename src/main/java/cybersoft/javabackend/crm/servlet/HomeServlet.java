@@ -42,12 +42,9 @@ public class HomeServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		user = (User) session.getAttribute("user");
 
-		if (user.getRole().getId() == ComConst.ROLE_MANAGER) {
-			if (jobService.getAllJobsByManagerID(user.getId()) != null)
-				lstJob.addAll(jobService.getAllJobsByManagerID(user.getId()));
-		} else if (user.getRole().getId() == ComConst.ROLE_ADMIN) {
-			if (jobService.getAllJobWithoutManager() != null)
-				lstJob = jobService.getAllJobWithoutManager();
+		if (user.getRole().getId() == ComConst.ROLE_ADMIN) {
+			lstJob.addAll(jobService.getAllJobWithoutManager());
+			lstJob.addAll(jobService.getAllJobs());
 		}
 		lstJob.addAll(jobService.getAllJobsByUserID(user.getId()));
 		List<Integer> numUser;

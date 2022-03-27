@@ -32,7 +32,7 @@
 							</div>
 							<div class="form-group">
 								<label for="email">Email</label> <input id="email" type="text"
-									class="form-control" placeholder="Full name"
+									class="form-control <c:if test="${emailExists}">is-invalid</c:if>" placeholder="Full name"
 									value="${userUpdate.email}" name="email" required>
 								<c:if test="${emailExists}">
 									<div class="invalid-feedback">Email already exists.</div>

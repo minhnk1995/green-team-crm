@@ -43,7 +43,7 @@
 		                <div class="btn-custom-style" ${job.getEnd_date().toLocalDate().isBefore(LocalDate.now()) ? "hidden" : ""}>
 		                	<a href="" data-toggle="modal" data-target="#modal-large" class="btn btn-light">
 			                	<i class="material-icons icon-30pt text-muted mr-1">build</i>
-			    				Configure
+			    				Config
 			    			</a>
 		                </div>
 		                <div class="btn-custom-style">
@@ -158,11 +158,11 @@
 			                                <td><small>${lstTask.getEnd_date().toLocalDate()}</small></td>	                                	                             
 			                                <c:choose>
 			                                	<c:when test="${lstTask.getStatus().getId()==1}">
-			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now(), lstTask.getEnd_date()).toDays() } days left</small></td>
+			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now().minusDays(1), lstTask.getEnd_date()).toDays() } days left</small></td>
 			                                		<td><span class="badge badge-warning">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                	<c:when test="${lstTask.getStatus().getId()==2}">
-			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now(), lstTask.getEnd_date()).toDays() } days left</small></td>
+			                                		<td><small class="text-muted">${Duration.between(LocalDateTime.now().minusDays(1), lstTask.getEnd_date()).toDays() } days left</small></td>
 			                                		<td><span class="badge badge-primary">${lstTask.getStatus().getName()}</span></td>
 			                                	</c:when>
 			                                	<c:when test="${lstTask.getStatus().getId()==3}">

@@ -3,6 +3,7 @@ package cybersoft.javabackend.crm.servlet;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,10 +115,10 @@ public class TaskServlet extends HttpServlet {
 				req.setAttribute("invalidManager", "Please assign to a staff");
 
 			}
-			if(LocalDateTime.now().isBefore(job.getStart_date())) {
+			if(LocalDate.now().isBefore(LocalDate.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
 				status = 1;
 			}
-			else if(LocalDateTime.now().isAfter(job.getEnd_date())) {
+			else if(LocalDate.now().isAfter(LocalDate.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd")))) {
 				status = 3;
 			}
 			else {
@@ -133,6 +134,7 @@ public class TaskServlet extends HttpServlet {
 					req.getRequestDispatcher(JspConst.TASK_CREATE).forward(req, resp);
 				}
 			} else {
+				req.setAttribute("job", job);
 				req.getRequestDispatcher(JspConst.TASK_CREATE).forward(req, resp);
 			}
 			break;
@@ -210,9 +212,11 @@ public class TaskServlet extends HttpServlet {
 				flag = jobService.editTaskById(taskId, name, start, end, userId, status);			
 				if (flag) {
 					req.setAttribute("msg", "Successfully edit the task!");
+					req.setAttribute("taskRemoveSuccess", true);
 					req.getRequestDispatcher(JspConst.JOB_RESULT).forward(req, resp);
 				} else {
 					req.setAttribute("msg", "Failed to edit the task!");
+					req.setAttribute("taskRemoveSuccess", true);
 					req.getRequestDispatcher(JspConst.JOB_RESULT).forward(req, resp);
 				}
 			} else {

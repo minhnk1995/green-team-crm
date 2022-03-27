@@ -199,7 +199,7 @@ public class UserServlet extends HttpServlet {
 		int roleId = Integer.parseInt(req.getParameter("role"));
 		System.out.println(email + " " + password + "pre " + rPassword + " " + name + " " + phone + " " + address + " " + roleId);
 	
-		return new UserCreatedDto(email,password,rPassword,name,phone,address,roleId);
+		return new UserCreatedDto(email,password,rPassword,name,address,phone,roleId);
 	}
 
 }
