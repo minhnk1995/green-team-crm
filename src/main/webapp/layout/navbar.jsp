@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="cybersoft.javabackend.crm.util.UrlConst"%>
 
 <div class="page__header mb-0">
     <div class="container page__container">
@@ -33,10 +34,11 @@
                             User
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_DASHBOARD %>">
                                 User List
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item btn"  data-toggle="modal"
+							data-target="#modal-create-user">
                                 Create User
                             </a>
                         </div>

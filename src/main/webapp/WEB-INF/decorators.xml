@@ -3,4 +3,8 @@
 	<decorator name="web" page="default-layout.jsp">
 		<pattern>/*</pattern>
 	</decorator>
+	<excludes>
+		<pattern>/log-in</pattern>
+		<pattern>/user/delete*</pattern>
+	</excludes>
 </decorators>

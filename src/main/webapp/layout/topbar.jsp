@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="cybersoft.javabackend.crm.util.UrlConst"%>
 
 <!-- Header -->
 <div id="header" class="mdk-header bg-light js-mdk-header m-0" data-fixed data-effects="waterfall">
@@ -14,8 +15,8 @@
                 </button>
 
                 <!-- Navbar Brand -->
-                <a href="dashboard.html" class="navbar-brand">
-                    <img class="navbar-brand-icon" src="assets/images/logo.png" height="50" alt="Cybersoft" />
+                <a href="<%= request.getContextPath() + UrlConst.HOME %>" class="navbar-brand">
+                    <img class="navbar-brand-icon" src='<c:url value="/assets/images/logo.png"/>' height="50" alt="Cybersoft" />
                 </a>
 
                 <span class="mr-3"></span>
@@ -48,7 +49,7 @@
                                     <div class="dropdown-item d-flex">
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm" style="width: 32px; height: 32px">
-                                                <img src="assets/images/256_daniel-gaffey-1060698-unsplash.jpg" alt="Avatar" class="avatar-img rounded-circle" />
+                                                <img src='<c:url value="/assets/images/avatars/tuanphan.jpg"/>' alt="Avatar" class="avatar-img rounded-circle" />
                                             </div>
                                         </div>
                                         <div class="flex">
@@ -95,7 +96,7 @@
                                     <div class="dropdown-item d-flex">
                                         <div class="mr-3">
                                             <div class="avatar avatar-sm" style="width: 32px; height: 32px">
-                                                <img src="assets/images/256_daniel-gaffey-1060698-unsplash.jpg" alt="Avatar" class="avatar-img rounded-circle" />
+                                                <img src='<c:url value="assets/images/256_daniel-gaffey-1060698-unsplash.jpg"/>' alt="Avatar" class="avatar-img rounded-circle" />
                                             </div>
                                         </div>
                                         <div class="flex">
@@ -114,33 +115,28 @@
                 </ul>
 
                 <ul class="nav navbar-nav d-none d-sm-flex border-left navbar-border navbar-height align-items-center">
-                    <li class="nav-item dropdown">
-                        <a href="#account_menu" class="nav-link dropdown-toggle" data-toggle="dropdown" data-caret="false">
-                            <span class="avatar avatar-sm">
-                                <span class="avatar-title rounded-circle bg-warning">
-                                    Tuấn
-                                </span>
-                            </span>
-                        </a>
-                        <div id="account_menu" class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-item-text dropdown-item-text--lh">
-                                <div><strong>Thanh Tuấn</strong></div>
-                                <div>@tuanphan</div>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item active" href="dashboard.html">
-                                Dashboard
-                            </a>
-                            <a class="dropdown-item" href="profile.html">
-                                My profile
-                            </a>
-                            <a class="dropdown-item" href="account-edit.html">
-                                Edit account
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="login.html">Logout</a>
-                        </div>
-                    </li>
+                   <li class="nav-item dropdown">
+		            	<a href="#account_menu" class="nav-link dropdown-toggle" data-toggle="dropdown" data-caret="false"> 
+			                <span class="avatar avatar-sm"> 
+			                    <span class="avatar-title rounded-circle bg-warning pr" style="font-size: 0.8vw;">
+			                    	${user.getName().substring(test.lastIndexOf(" "))}
+			                    </span>
+			                </span>
+		                </a>
+		                <div id="account_menu" class="dropdown-menu dropdown-menu-right">
+		                    <div class="dropdown-item-text dropdown-item-text--lh">
+		                        <div>
+		                            <strong>${user.getName()}</strong>
+		                        </div>
+		                        <div>${user.getEmail()}</div>
+		                    </div>
+		                    <div class="dropdown-divider"></div>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_PROFILE%>?id=${user.id}"> My profile </a>
+		                    <a class="dropdown-item" href="<%= request.getContextPath() + UrlConst.USER_UPDATE%>?id=${user.id}">Edit account </a>
+		                    <div class="dropdown-divider"></div>
+		                    <a class="dropdown-item" href="<%=request.getContextPath() + UrlConst.AUTH_OUT%>">Logout</a>
+		                </div>
+		            </li>
                 </ul>
             </div>
         </div>
